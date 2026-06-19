@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
+import * as Icons from 'lucide-react';
 import {
   ArrowLeft,
   ArrowRight,
@@ -13,8 +14,10 @@ import {
   MapPin,
   Phone,
   Siren,
+  Wrench,
   X,
 } from 'lucide-react';
+import type { LucideIcon } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -368,7 +371,7 @@ function StepCategory({
                   isActive && 'border-orange-400/60',
                 )}
               >
-                <CategoryIcon slug={cat.slug} />
+                <CategoryIcon name={cat.icon} />
               </span>
               <span className="text-sm font-semibold text-white/90">{cat.label}</span>
             </button>
@@ -676,16 +679,11 @@ function RecapRow({ label, value }: { label: string; value: string }) {
   );
 }
 
-/* Tiny icon fallback to avoid coupling to icon string */
-function CategoryIcon({ slug }: { slug: string }) {
-  // Simple visual: orange dot — the real visual identity lives on parent cards
-  return (
-    <span
-      className="block h-2 w-2 rounded-full bg-orange-400"
-      aria-hidden
-      title={slug}
-    />
-  );
+/* Résout l'icône lucide depuis le nom stocké dans CATEGORIES (fallback: Wrench) */
+function CategoryIcon({ name }: { name: string }) {
+  const Lib = Icons as unknown as Record<string, LucideIcon>;
+  const Icon = Lib[name] ?? Wrench;
+  return <Icon className="h-5 w-5" aria-hidden />;
 }
 
 // Helper to keep TS aware of helper types used internally
