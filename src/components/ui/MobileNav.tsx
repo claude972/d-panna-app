@@ -17,12 +17,12 @@ type NavLink = {
 };
 
 const LINKS: NavLink[] = [
-  { label: 'Services', href: '#services' },
-  { label: 'Comment ça marche', href: '#how-it-works' },
-  { label: 'Devenir artisan', href: '#devenir-artisan' },
-  { label: 'FAQ', href: '#faq' },
-  { label: 'Blog', href: '#blog' },
-  { label: 'Contact', href: '#contact' },
+  { label: 'Services', href: '/#services' },
+  { label: 'Comment ça marche', href: '/#how-it-works' },
+  { label: 'Devenir artisan', href: '/artisans' },
+  { label: 'FAQ', href: '/#faq' },
+  { label: 'Blog', href: '/blog' },
+  { label: 'Contact', href: '/contact' },
 ];
 
 const containerVariants: Variants = {
@@ -121,7 +121,7 @@ export function MobileNav({ isOpen, onClose }: MobileNavProps) {
               className="mt-auto flex flex-col gap-4 pt-12"
             >
               <a
-                href="#diagnostic"
+                href="/questionnaire"
                 onClick={onClose}
                 className={cn(
                   'gradient-orange-amber glow-orange',

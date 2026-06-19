@@ -33,12 +33,16 @@ export default function Home() {
       <main className="pt-16">
         <HeroSection onCTAClick={() => setModalOpen(true)} />
         <StatsCounter />
-        <HowItWorks />
-        <ServiceCategoryGrid />
+        <div id="how-it-works" className="scroll-mt-24">
+          <HowItWorks />
+        </div>
+        <div id="services" className="scroll-mt-24">
+          <ServiceCategoryGrid />
+        </div>
         <TrustBar />
         <TestimonialCards />
         <ArtisanRecruitmentBanner />
-        <section id="blog" className="py-24 px-6">
+        <section id="blog" className="scroll-mt-24 py-24 px-6">
           <div className="mx-auto max-w-7xl">
             <div className="mb-16 flex flex-col items-center gap-4 text-center">
               <span className="glass-card inline-flex items-center rounded-full px-4 py-2 text-xs uppercase tracking-widest text-orange-400">
@@ -59,7 +63,9 @@ export default function Home() {
             </div>
           </div>
         </section>
-        <FAQAccordion />
+        <div id="faq" className="scroll-mt-24">
+          <FAQAccordion />
+        </div>
         <Footer />
       </main>
       <FloatingCTA onClick={() => setModalOpen(true)} />

@@ -72,13 +72,13 @@ type FooterLink = {
 
 const COMPANY_LINKS: FooterLink[] = [
   { label: 'Notre histoire', href: '/a-propos' },
-  { label: 'Devenir artisan', href: '/devenir-artisan' },
+  { label: 'Devenir artisan', href: '/artisans' },
   { label: 'Carrières', href: '/carrieres' },
   { label: 'Blog', href: '/blog' },
 ];
 
 const HELP_LINKS: FooterLink[] = [
-  { label: 'FAQ', href: '/faq' },
+  { label: 'FAQ', href: '/#faq' },
   { label: 'Contact', href: '/contact' },
   { label: 'Mentions légales', href: '/mentions-legales' },
   { label: 'CGU', href: '/cgu' },

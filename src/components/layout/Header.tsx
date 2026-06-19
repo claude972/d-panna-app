@@ -10,10 +10,10 @@ interface HeaderProps {
 }
 
 const NAV_LINKS = [
-  { href: "/services", label: "Services" },
-  { href: "/comment-ca-marche", label: "Comment ça marche" },
-  { href: "/devenir-artisan", label: "Devenir artisan" },
-  { href: "/faq", label: "FAQ" },
+  { href: "/#services", label: "Services" },
+  { href: "/#how-it-works", label: "Comment ça marche" },
+  { href: "/artisans", label: "Devenir artisan" },
+  { href: "/#faq", label: "FAQ" },
   { href: "/blog", label: "Blog" },
   { href: "/contact", label: "Contact" },
 ];
@@ -69,7 +69,7 @@ export default function Header({ onMenuOpen }: HeaderProps) {
         {/* CTA desktop */}
         <div className="hidden lg:flex items-center">
           <Link
-            href="/devis"
+            href="/questionnaire"
             className="gradient-orange-amber glow-orange rounded-full px-6 py-3 text-sm font-semibold text-black hover:scale-105 transition-transform"
           >
             Démarrer mon diagnostic
