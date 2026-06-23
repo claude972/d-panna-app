@@ -2,9 +2,8 @@
 
 import { useRef } from "react";
 import { motion, useScroll, useTransform, type Variants } from "framer-motion";
-import { ArrowRight } from "lucide-react";
-import { HERO, STATS } from "@/lib/constants";
-import { cn } from "@/lib/utils";
+import { ArrowRight, ShieldCheck, Image } from "lucide-react";
+import { HERO } from "@/lib/constants";
 
 interface HeroSectionProps {
   onCTAClick?: () => void;
@@ -30,21 +29,6 @@ const itemVariants: Variants = {
   },
 };
 
-// On met "en chemin" en gradient ; sinon fallback sur le dernier mot
-function splitHeroHeadline(h1: string): { lead: string; accent: string } {
-  const keyword = "en chemin";
-  const idx = h1.toLowerCase().lastIndexOf(keyword);
-  if (idx >= 0) {
-    return {
-      lead: h1.slice(0, idx).trimEnd(),
-      accent: h1.slice(idx, idx + keyword.length),
-    };
-  }
-  const parts = h1.trim().split(" ");
-  const accent = parts.pop() ?? "";
-  return { lead: parts.join(" "), accent };
-}
-
 export default function HeroSection({ onCTAClick }: HeroSectionProps) {
   const sectionRef = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({
@@ -55,128 +39,106 @@ export default function HeroSection({ onCTAClick }: HeroSectionProps) {
   const contentOpacity = useTransform(scrollYProgress, [0, 0.6], [1, 0]);
   const contentY = useTransform(scrollYProgress, [0, 0.6], [0, 80]);
 
-  const { lead, accent } = splitHeroHeadline(HERO.h1);
-  const heroStats = STATS.slice(0, 3);
-
   return (
     <section
       ref={sectionRef}
-      className="relative flex min-h-screen items-center justify-center overflow-hidden bg-stone-950"
+      className="relative flex min-h-screen items-center overflow-hidden bg-ink"
     >
-      {/* Background pattern + radial gradient */}
-      <div className="grid-bg pointer-events-none absolute inset-0 opacity-40" />
-      <div
-        className="pointer-events-none absolute inset-0"
-        style={{
-          background:
-            "radial-gradient(ellipse at center, rgba(20,18,16,0.2) 0%, rgba(12,10,9,0.85) 60%, rgba(12,10,9,1) 100%)",
-        }}
-      />
-
-      {/* Halo orange diffus */}
-      <div
-        className="pointer-events-none absolute left-1/2 top-1/2 h-[60vh] w-[60vh] -translate-x-1/2 -translate-y-1/2 rounded-full opacity-25 blur-3xl"
-        style={{
-          background:
-            "radial-gradient(circle, rgba(249,115,22,0.4) 0%, rgba(245,158,11,0.15) 40%, transparent 70%)",
-        }}
-      />
-
       <motion.div
         style={{ opacity: contentOpacity, y: contentY }}
-        className="relative z-10 mx-auto w-full max-w-6xl px-6 text-center"
+        className="relative z-10 mx-auto w-full max-w-6xl px-6 py-20 md:py-24"
       >
         <motion.div
           variants={containerVariants}
           initial="hidden"
           animate="visible"
-          className="flex flex-col items-center gap-8 md:gap-10"
+          className="grid grid-cols-1 items-center gap-12 md:grid-cols-2"
         >
-          {/* Badge */}
-          <motion.div variants={itemVariants}>
-            <span className="glass-card inline-flex items-center gap-2 rounded-full px-4 py-2 text-xs uppercase tracking-widest text-stone-300">
-              <span className="relative flex h-2 w-2">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-orange-500 opacity-75" />
-                <span className="relative inline-flex h-2 w-2 rounded-full bg-orange-500" />
+          {/* Left column */}
+          <div className="flex flex-col gap-7">
+            {/* Badge */}
+            <motion.div variants={itemVariants}>
+              <span className="inline-flex items-center gap-2 rounded-lg bg-yellow px-2.5 py-1 font-display font-extrabold text-[11px] text-ink">
+                <ShieldCheck className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
+                ARTISANS VÉRIFIÉS &amp; ASSURÉS
               </span>
-              <span className="text-orange-400">Élu n°1 par Capital</span>
-            </span>
-          </motion.div>
+            </motion.div>
 
-          {/* H1 */}
-          <motion.h1
-            variants={itemVariants}
-            className="text-5xl font-black tracking-tight text-white/90 md:text-7xl lg:text-8xl"
-          >
-            {lead}{" "}
-            <span className="text-gradient">{accent}</span>
-          </motion.h1>
+            {/* H1 */}
+            <motion.h1
+              variants={itemVariants}
+              className="font-display font-black text-white text-5xl md:text-6xl tracking-tight leading-[1.05]"
+            >
+              UN PRO CHEZ VOUS EN{" "}
+              <span className="text-yellow">30 MIN.</span>
+            </motion.h1>
 
-          {/* Subtitle */}
-          <motion.p
-            variants={itemVariants}
-            className="mx-auto max-w-3xl text-lg leading-relaxed text-stone-300 md:text-2xl"
-          >
-            {HERO.subtitle}
-          </motion.p>
+            {/* Subtitle */}
+            <motion.p
+              variants={itemVariants}
+              className="text-[#aeb7dd] text-lg leading-relaxed max-w-md"
+            >
+              Une panne ? Décrivez-la en 30 secondes. On vous met en relation
+              avec un artisan certifié près de chez vous, au juste prix.
+            </motion.p>
 
-          {/* Stats inline */}
-          <motion.div
-            variants={itemVariants}
-            className="flex flex-col items-center gap-8 md:flex-row md:justify-center md:gap-12"
-          >
-            {heroStats.map((stat) => (
-              <div
-                key={stat.label}
-                className="flex flex-col items-center gap-1 text-center"
+            {/* CTAs */}
+            <motion.div
+              variants={itemVariants}
+              className="flex flex-wrap items-center gap-4"
+            >
+              <button
+                type="button"
+                onClick={onCTAClick}
+                className="inline-flex items-center gap-2 bg-yellow text-ink font-display font-extrabold rounded-xl px-5 py-3 hover:brightness-95 cursor-pointer"
               >
-                <span className="text-gradient text-4xl font-black">
-                  {stat.value}
-                </span>
-                <span className="max-w-[14rem] text-xs uppercase tracking-widest text-stone-500">
-                  {stat.label}
-                </span>
+                <span>Décrire mon problème</span>
+                <ArrowRight className="h-4 w-4" aria-hidden="true" />
+              </button>
+
+              <a
+                href="/#how-it-works"
+                className="border-[1.5px] border-white/40 text-white rounded-xl px-5 py-3 hover:bg-white/10 font-display font-extrabold inline-flex items-center"
+              >
+                Comment ça marche
+              </a>
+            </motion.div>
+
+            {/* Trust line */}
+            <motion.div
+              variants={itemVariants}
+              className="flex flex-wrap items-center gap-3 text-sm"
+            >
+              <span className="text-yellow tracking-tight">★★★★★</span>
+              <span className="text-[#aeb7dd]">
+                <span className="text-white font-bold">4,8/5</span>
+                {" · "}12 000 avis
+              </span>
+              <span className="text-white/20">|</span>
+              <span className="text-[#aeb7dd]">
+                <span className="text-white font-bold">+500 000</span>{" "}
+                dépannages depuis 2013
+              </span>
+            </motion.div>
+          </div>
+
+          {/* Right column */}
+          <motion.div variants={itemVariants} className="relative">
+            {/* Image placeholder */}
+            <div className="bg-ink-soft rounded-2xl h-[320px] flex items-center justify-center">
+              <Image className="h-12 w-12 text-[#6f7cb5]" aria-hidden="true" />
+            </div>
+
+            {/* Floating card */}
+            <div className="absolute -bottom-4 -left-4 flex items-center gap-2 bg-yellow text-ink rounded-xl px-3.5 py-2.5 shadow-lg">
+              <span className="flex h-5 w-5 items-center justify-center rounded-full bg-ink text-yellow text-[11px] font-black shrink-0">
+                ✓
+              </span>
+              <div className="leading-tight">
+                <p className="font-display font-extrabold text-[13px]">Karim, plombier</p>
+                <p className="text-[11px] font-semibold opacity-80">Vérifié · arrive dans 22 min</p>
               </div>
-            ))}
-          </motion.div>
-
-          {/* CTAs */}
-          <motion.div
-            variants={itemVariants}
-            className="mt-2 flex flex-col items-center gap-5"
-          >
-            <motion.button
-              type="button"
-              onClick={onCTAClick}
-              className={cn(
-                "gradient-orange-amber glow-orange group inline-flex items-center gap-2 rounded-full px-10 py-5 text-base font-semibold text-stone-950 transition-transform duration-300 ease-out hover:scale-[1.03]"
-              )}
-              animate={{
-                boxShadow: [
-                  "0 0 24px rgba(249,115,22,0.35)",
-                  "0 0 48px rgba(249,115,22,0.6)",
-                  "0 0 24px rgba(249,115,22,0.35)",
-                ],
-              }}
-              transition={{
-                duration: 2.4,
-                repeat: Infinity,
-                ease: "easeInOut",
-              }}
-            >
-              <span>Trouver mon artisan</span>
-              <ArrowRight
-                className="h-5 w-5 transition-transform duration-300 ease-out group-hover:translate-x-1"
-                aria-hidden="true"
-              />
-            </motion.button>
-
-            <a
-              href="#comment-ca-marche"
-              className="text-sm text-stone-400 underline-offset-4 transition-colors duration-300 ease-out hover:text-white hover:underline"
-            >
-              Voir comment ça marche
-            </a>
+            </div>
           </motion.div>
         </motion.div>
       </motion.div>

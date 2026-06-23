@@ -30,7 +30,7 @@ export default function Home() {
       <EmergencyBanner />
       <Header onMenuOpen={() => setMobileNavOpen(true)} />
       <MobileNav isOpen={mobileNavOpen} onClose={() => setMobileNavOpen(false)} />
-      <main className="pt-16">
+      <main>
         <HeroSection onCTAClick={() => setModalOpen(true)} />
         <StatsCounter />
         <div id="how-it-works" className="scroll-mt-24">
@@ -42,16 +42,16 @@ export default function Home() {
         <TrustBar />
         <TestimonialCards />
         <ArtisanRecruitmentBanner />
-        <section id="blog" className="scroll-mt-24 py-24 px-6">
+        <section id="blog" className="scroll-mt-24 bg-surface-2 py-24 px-6">
           <div className="mx-auto max-w-7xl">
             <div className="mb-16 flex flex-col items-center gap-4 text-center">
-              <span className="glass-card inline-flex items-center rounded-full px-4 py-2 text-xs uppercase tracking-widest text-orange-400">
+              <span className="font-display font-extrabold text-[11px] uppercase tracking-[0.14em] text-blue">
                 Le blog
               </span>
-              <h2 className="text-4xl font-black tracking-tight text-white/90 md:text-5xl">
-                Conseils & guides pour votre maison
+              <h2 className="font-display font-black text-4xl tracking-tight text-ink md:text-5xl">
+                CONSEILS &amp; GUIDES
               </h2>
-              <p className="max-w-2xl text-base text-stone-400 md:text-lg">
+              <p className="max-w-2xl text-base text-muted md:text-lg">
                 Tout ce qu&apos;il faut savoir avant d&apos;appeler un artisan, pour ne plus jamais
                 subir une mauvaise surprise.
               </p>

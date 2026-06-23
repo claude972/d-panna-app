@@ -119,19 +119,16 @@ export default function Footer() {
   const services = CATEGORIES.slice(0, 6);
 
   return (
-    <footer className="relative border-t border-white/5 bg-stone-950 py-20 px-6">
-      <div className="absolute inset-0 grid-bg opacity-20 pointer-events-none" />
-
+    <footer className="relative bg-ink py-20 px-6">
       <div className="relative max-w-7xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-5 gap-8">
           <div className="md:col-span-2 space-y-6">
             <Link href="/" className="inline-flex items-baseline gap-1">
-              <span className="text-3xl font-black tracking-tight text-white/90">
+              <span className="font-display font-black text-3xl text-white tracking-tight">
                 D-PANNA
               </span>
-              <span className="text-3xl font-black text-gradient">.</span>
             </Link>
-            <p className="text-base md:text-lg text-stone-300 leading-relaxed max-w-md">
+            <p className="text-base md:text-lg text-[#9aa4ce] leading-relaxed max-w-md">
               Le réseau d&apos;artisans certifiés et assurés pour vos dépannages
               urgents. Un pro qualifié à votre porte, sous deux heures.
             </p>
@@ -139,12 +136,12 @@ export default function Footer() {
             <form onSubmit={handleSubscribe} className="space-y-3 max-w-md">
               <label
                 htmlFor="footer-newsletter"
-                className="block text-xs uppercase tracking-widest text-orange-400"
+                className="block font-display font-extrabold text-[11px] uppercase tracking-[0.14em] text-white"
               >
                 Newsletter
               </label>
               <div className="flex items-center gap-2">
-                <div className="flex-1 glass-card rounded-full px-5 py-3">
+                <div className="flex-1 rounded-xl border border-white/10 bg-white/10 px-5 py-3">
                   <input
                     id="footer-newsletter"
                     type="email"
@@ -153,7 +150,7 @@ export default function Footer() {
                     placeholder="votre@email.fr"
                     autoComplete="email"
                     required
-                    className="w-full bg-transparent text-sm text-white/90 placeholder:text-stone-500 focus:outline-none"
+                    className="w-full bg-transparent text-sm text-white placeholder:text-[#9aa4ce] focus:outline-none"
                   />
                 </div>
                 <motion.button
@@ -163,9 +160,8 @@ export default function Footer() {
                   whileTap={{ scale: 0.96 }}
                   transition={{ duration: 0.2 }}
                   className={cn(
-                    'gradient-orange-amber glow-orange',
-                    'inline-flex items-center justify-center',
-                    'h-12 w-12 rounded-full text-stone-950',
+                    'bg-yellow inline-flex items-center justify-center',
+                    'h-12 w-12 rounded-xl text-ink',
                     'disabled:opacity-60 disabled:cursor-not-allowed',
                   )}
                   aria-label="S'inscrire à la newsletter"
@@ -173,7 +169,7 @@ export default function Footer() {
                   <Send className="h-4 w-4" strokeWidth={2.5} />
                 </motion.button>
               </div>
-              <p className="text-xs text-stone-500">
+              <p className="text-xs text-[#9aa4ce]">
                 Conseils dépannage et bons plans. Désinscription en un clic.
               </p>
             </form>
@@ -210,7 +206,7 @@ export default function Footer() {
           </FooterColumn>
         </div>
 
-        <div className="border-t border-white/5 pt-8 mt-12 flex flex-col md:flex-row md:items-center md:justify-between gap-6 text-sm text-stone-500">
+        <div className="border-t border-white/10 pt-8 mt-12 flex flex-col md:flex-row md:items-center md:justify-between gap-6 text-sm text-[#9aa4ce]">
           <p>&copy; 2026 D-Panna SAS</p>
           <div className="flex items-center gap-4">
             {SOCIAL_LINKS.map(({ label, href, Icon }) => (
@@ -220,7 +216,7 @@ export default function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={label}
-                className="transition-colors duration-300 ease-out hover:text-orange-400"
+                className="transition-colors duration-300 ease-out hover:text-white"
               >
                 <Icon className="h-5 w-5" />
               </a>
@@ -228,9 +224,9 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="mt-6 text-xs text-stone-500">
+        <div className="mt-6 text-xs text-[#9aa4ce]">
           <span>Membre FNCC</span>
-          <span className="mx-2 text-stone-700">&bull;</span>
+          <span className="mx-2 opacity-40">&bull;</span>
           <span>SIRET 000 000 000 00000</span>
         </div>
       </div>
@@ -246,7 +242,7 @@ type FooterColumnProps = {
 function FooterColumn({ title, children }: FooterColumnProps) {
   return (
     <div className="space-y-4">
-      <h3 className="text-xs uppercase tracking-widest text-orange-400">
+      <h3 className="font-display font-extrabold text-[11px] uppercase tracking-[0.14em] text-white">
         {title}
       </h3>
       <ul className="space-y-3">{children}</ul>
@@ -264,7 +260,7 @@ function FooterColumnLink({ href, label }: FooterColumnLinkProps) {
     <li>
       <Link
         href={href}
-        className="text-sm text-stone-300 transition-colors duration-300 ease-out hover:text-orange-400"
+        className="text-sm text-[#9aa4ce] transition-colors duration-300 ease-out hover:text-white"
       >
         {label}
       </Link>

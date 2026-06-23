@@ -65,9 +65,10 @@ const slideVariants = {
   exit: { opacity: 0, x: -32 },
 };
 
-const labelClass = 'text-xs uppercase tracking-widest text-orange-400';
+const eyebrowClass =
+  'font-display font-extrabold text-[11px] uppercase tracking-[0.14em] text-blue';
 const inputClass =
-  'w-full rounded-2xl border border-white/10 bg-white/5 px-5 py-4 text-base text-white/90 placeholder:text-stone-500 outline-none transition focus:border-orange-400/60 focus:bg-white/10';
+  'w-full rounded-xl border border-line bg-white px-5 py-4 text-base text-ink placeholder:text-muted outline-none transition focus:border-blue focus:ring-2 focus:ring-blue/20';
 
 export default function QuestionnaireModal({
   isOpen,
@@ -193,139 +194,146 @@ export default function QuestionnaireModal({
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.3, ease: 'easeOut' }}
-          className="fixed inset-0 z-[100] overflow-y-auto bg-stone-950/95 backdrop-blur-2xl"
+          className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto bg-ink/60 px-4 py-10"
           role="dialog"
           aria-modal="true"
         >
-          <div className="grid-bg absolute inset-0 opacity-30" aria-hidden />
+          {/* Panel */}
+          <div className="relative w-full max-w-2xl rounded-2xl bg-white shadow-xl">
+            {/* Close button */}
+            <button
+              type="button"
+              onClick={handleClose}
+              aria-label="Fermer"
+              className="absolute right-4 top-4 z-10 flex h-9 w-9 items-center justify-center rounded-full border border-line text-muted transition hover:border-blue hover:text-ink"
+            >
+              <X className="h-4 w-4" />
+            </button>
 
-          <button
-            type="button"
-            onClick={handleClose}
-            aria-label="Fermer"
-            className="fixed right-5 top-5 z-10 flex h-12 w-12 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white/80 backdrop-blur-xl transition hover:border-orange-400/40 hover:text-white"
-          >
-            <X className="h-5 w-5" />
-          </button>
-
-          <div className="relative mx-auto max-w-3xl px-6 pb-24 pt-20">
-            {/* Progress */}
-            <div className="mb-12 flex items-center gap-2">
+            {/* Progress bar */}
+            <div className="flex gap-1 rounded-t-2xl overflow-hidden p-4 pb-0">
               {STEP_ORDER.map((s, i) => {
-                const completed = i <= progressIndex;
+                const filled = i <= progressIndex;
                 return (
-                  <div
-                    key={s}
-                    className={cn(
-                      'h-1.5 flex-1 overflow-hidden rounded-full bg-white/10 transition',
-                    )}
-                  >
+                  <div key={s} className="h-1.5 flex-1 rounded-full bg-line overflow-hidden">
                     <motion.div
                       initial={false}
-                      animate={{ width: completed ? '100%' : '0%' }}
+                      animate={{ width: filled ? '100%' : '0%' }}
                       transition={{ duration: 0.5, ease: 'easeOut' }}
-                      className={cn(
-                        'h-full',
-                        completed ? 'gradient-orange-amber glow-orange' : 'bg-transparent',
-                      )}
+                      className={cn('h-full', filled ? 'bg-blue' : 'bg-transparent')}
                     />
                   </div>
                 );
               })}
             </div>
 
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={step}
-                variants={slideVariants}
-                initial="initial"
-                animate="animate"
-                exit="exit"
-                transition={{ duration: 0.4, ease: 'easeOut' }}
-              >
-                {step === 'category' && (
-                  <StepCategory
-                    selectedSlug={values.category}
-                    onPick={(slug) => {
-                      setValue('category', slug, { shouldValidate: true });
-                      setValue('subcategory', '', { shouldValidate: false });
-                      setStep('subcategory');
-                    }}
-                  />
-                )}
+            <div className="px-6 pb-8 pt-6 md:px-8">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={step}
+                  variants={slideVariants}
+                  initial="initial"
+                  animate="animate"
+                  exit="exit"
+                  transition={{ duration: 0.35, ease: 'easeOut' }}
+                >
+                  {step === 'category' && (
+                    <StepCategory
+                      selectedSlug={values.category}
+                      onPick={(slug) => {
+                        setValue('category', slug, { shouldValidate: true });
+                        setValue('subcategory', '', { shouldValidate: false });
+                        setStep('subcategory');
+                      }}
+                    />
+                  )}
 
-                {step === 'subcategory' && (
-                  <StepSubcategory
-                    categoryLabel={selectedCategory?.label ?? ''}
-                    subcategories={selectedCategory?.subcategories ?? []}
-                    selectedSub={values.subcategory}
-                    selectedUrgency={values.urgency}
-                    onPickSub={(sub) =>
-                      setValue('subcategory', sub, { shouldValidate: true })
-                    }
-                    onPickUrgency={(u) =>
-                      setValue('urgency', u, { shouldValidate: true })
-                    }
-                    errorSub={errors.subcategory?.message}
-                  />
-                )}
+                  {step === 'subcategory' && (
+                    <StepSubcategory
+                      categoryLabel={selectedCategory?.label ?? ''}
+                      subcategories={selectedCategory?.subcategories ?? []}
+                      selectedSub={values.subcategory}
+                      selectedUrgency={values.urgency}
+                      onPickSub={(sub) =>
+                        setValue('subcategory', sub, { shouldValidate: true })
+                      }
+                      onPickUrgency={(u) =>
+                        setValue('urgency', u, { shouldValidate: true })
+                      }
+                      errorSub={errors.subcategory?.message}
+                    />
+                  )}
 
-                {step === 'location' && (
-                  <StepLocation register={register} errors={errors} />
-                )}
+                  {step === 'location' && (
+                    <StepLocation register={register} errors={errors} />
+                  )}
 
-                {step === 'contact' && (
-                  <StepContact register={register} errors={errors} />
-                )}
+                  {step === 'contact' && (
+                    <StepContact register={register} errors={errors} />
+                  )}
 
-                {step === 'confirmation' && (
-                  <StepConfirmation values={values} onClose={handleClose} />
-                )}
-              </motion.div>
-            </AnimatePresence>
+                  {step === 'confirmation' && (
+                    <StepConfirmation values={values} onClose={handleClose} />
+                  )}
+                </motion.div>
+              </AnimatePresence>
 
-            {/* Footer navigation */}
-            {step !== 'confirmation' && (
-              <div className="mt-12 flex items-center justify-between gap-4">
-                {step !== 'category' ? (
-                  <button
-                    type="button"
-                    onClick={goPrev}
-                    className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-6 py-3 text-sm font-medium text-white/80 transition hover:border-white/30 hover:text-white"
-                  >
-                    <ArrowLeft className="h-4 w-4" />
-                    Précédent
-                  </button>
-                ) : (
-                  <span />
-                )}
+              {/* Footer navigation */}
+              {step !== 'confirmation' && (
+                <div className="mt-10 flex items-center justify-between gap-4">
+                  {step !== 'category' ? (
+                    <button
+                      type="button"
+                      onClick={goPrev}
+                      className="inline-flex items-center gap-2 rounded-xl border border-line px-5 py-3 text-sm font-medium text-ink transition hover:border-blue"
+                    >
+                      <ArrowLeft className="h-4 w-4" />
+                      Précédent
+                    </button>
+                  ) : (
+                    <span />
+                  )}
 
-                {step === 'contact' ? (
-                  <button
-                    type="button"
-                    onClick={onFinalSubmit}
-                    disabled={submitting}
-                    className="gradient-orange-amber glow-orange inline-flex items-center gap-2 rounded-full px-8 py-4 text-sm font-semibold text-stone-950 transition hover:scale-[1.02] disabled:cursor-not-allowed disabled:opacity-60"
-                  >
-                    {submitting ? 'Envoi…' : 'Envoyer ma demande'}
-                    <ArrowRight className="h-4 w-4" />
-                  </button>
-                ) : (
-                  <button
-                    type="button"
-                    onClick={goNext}
-                    disabled={
-                      (step === 'category' && !values.category) ||
-                      (step === 'subcategory' && !values.subcategory)
-                    }
-                    className="gradient-orange-amber glow-orange inline-flex items-center gap-2 rounded-full px-8 py-4 text-sm font-semibold text-stone-950 transition hover:scale-[1.02] disabled:cursor-not-allowed disabled:opacity-40"
-                  >
-                    Suivant
-                    <ArrowRight className="h-4 w-4" />
-                  </button>
-                )}
-              </div>
-            )}
+                  {step === 'contact' ? (
+                    <button
+                      type="button"
+                      onClick={onFinalSubmit}
+                      disabled={submitting}
+                      className="inline-flex items-center gap-2 bg-yellow text-ink font-display font-extrabold rounded-xl px-5 py-3 hover:brightness-95 cursor-pointer disabled:cursor-not-allowed disabled:opacity-60"
+                    >
+                      {submitting ? 'Envoi…' : 'Envoyer ma demande'}
+                      <ArrowRight className="h-4 w-4" />
+                    </button>
+                  ) : (
+                    <button
+                      type="button"
+                      onClick={goNext}
+                      disabled={
+                        (step === 'category' && !values.category) ||
+                        (step === 'subcategory' && !values.subcategory)
+                      }
+                      className="inline-flex items-center gap-2 bg-yellow text-ink font-display font-extrabold rounded-xl px-5 py-3 hover:brightness-95 cursor-pointer disabled:cursor-not-allowed disabled:opacity-40"
+                    >
+                      Continuer
+                      <ArrowRight className="h-4 w-4" />
+                    </button>
+                  )}
+                </div>
+              )}
+
+              {/* Trust badge */}
+              {step !== 'confirmation' && (
+                <div className="mt-6 flex flex-col items-center gap-2">
+                  <span className="inline-flex items-center gap-1.5 rounded-full bg-blue-tint px-3 py-1 text-xs font-semibold text-blue-dark">
+                    100% gratuit &amp; sans engagement
+                  </span>
+                  <p className="flex items-center gap-1 text-[11px] text-muted">
+                    <Icons.Lock className="h-3 w-3" aria-hidden />
+                    Vos données sont protégées conformément au RGPD
+                  </p>
+                </div>
+              )}
+            </div>
           </div>
         </motion.div>
       )}
@@ -344,15 +352,15 @@ function StepCategory({
 }) {
   return (
     <div>
-      <p className={labelClass}>Étape 1 / 4</p>
-      <h2 className="mt-3 text-3xl font-bold tracking-tight text-white/90 md:text-5xl">
-        Quel est ton <span className="text-gradient">besoin</span> ?
+      <p className={eyebrowClass}>Étape 1 / 5</p>
+      <h2 className="mt-3 font-display font-black text-3xl tracking-tight text-ink md:text-4xl">
+        QUEL EST VOTRE BESOIN ?
       </h2>
-      <p className="mt-3 text-base leading-relaxed text-stone-300 md:text-lg">
-        Choisis la catégorie qui correspond à ton problème.
+      <p className="mt-2 text-base leading-relaxed text-muted">
+        Choisissez la catégorie qui correspond à votre problème.
       </p>
 
-      <div className="mt-10 grid grid-cols-2 gap-3 md:grid-cols-4">
+      <div className="mt-8 grid grid-cols-2 gap-3 md:grid-cols-4">
         {CATEGORIES.map((cat) => {
           const isActive = cat.slug === selectedSlug;
           return (
@@ -361,19 +369,24 @@ function StepCategory({
               type="button"
               onClick={() => onPick(cat.slug)}
               className={cn(
-                'glass-card group flex flex-col items-start gap-3 p-5 text-left transition hover:border-orange-400/40 hover:bg-white/[0.08]',
-                isActive && 'border-orange-400/60 bg-white/[0.08] glow-orange',
+                'card-bold group flex flex-col items-start gap-3 rounded-xl p-4 text-left transition',
+                isActive
+                  ? 'border-2 border-blue bg-blue-tint'
+                  : 'border border-line hover:border-blue/40',
               )}
             >
               <span
                 className={cn(
-                  'inline-flex h-10 w-10 items-center justify-center rounded-2xl border border-white/10 bg-white/5 text-orange-400 transition group-hover:border-orange-400/40',
-                  isActive && 'border-orange-400/60',
+                  'inline-flex h-9 w-9 items-center justify-center rounded-xl bg-blue-tint text-blue',
+                  isActive && 'bg-blue text-white',
                 )}
               >
                 <CategoryIcon name={cat.icon} />
               </span>
-              <span className="text-sm font-semibold text-white/90">{cat.label}</span>
+              <span className="text-sm font-semibold text-ink">{cat.label}</span>
+              {isActive && (
+                <Icons.CircleCheck className="h-4 w-4 text-blue self-end mt-auto" aria-hidden />
+              )}
             </button>
           );
         })}
@@ -401,16 +414,16 @@ function StepSubcategory({
 }) {
   return (
     <div>
-      <p className={labelClass}>Étape 2 / 4 — {categoryLabel}</p>
-      <h2 className="mt-3 text-3xl font-bold tracking-tight text-white/90 md:text-5xl">
-        Précise ton <span className="text-gradient">intervention</span>
+      <p className={eyebrowClass}>Étape 2 / 5 — {categoryLabel}</p>
+      <h2 className="mt-3 font-display font-black text-3xl tracking-tight text-ink md:text-4xl">
+        PRÉCISEZ L&apos;INTERVENTION
       </h2>
 
-      <div className="mt-10">
-        <p className={labelClass}>Sous-catégorie</p>
+      <div className="mt-8">
+        <p className={eyebrowClass}>Sous-catégorie</p>
         <div className="mt-4 grid grid-cols-1 gap-2 md:grid-cols-2">
           {subcategories.length === 0 && (
-            <p className="text-sm text-stone-500">Aucune sous-catégorie disponible.</p>
+            <p className="text-sm text-muted">Aucune sous-catégorie disponible.</p>
           )}
           {subcategories.map((sub) => {
             const isActive = sub === selectedSub;
@@ -420,21 +433,23 @@ function StepSubcategory({
                 type="button"
                 onClick={() => onPickSub(sub)}
                 className={cn(
-                  'flex items-center justify-between rounded-2xl border border-white/10 bg-white/5 px-5 py-4 text-left text-sm text-white/90 transition hover:border-orange-400/40 hover:bg-white/[0.08]',
-                  isActive && 'border-orange-400/60 bg-white/[0.08]',
+                  'flex items-center justify-between rounded-xl border px-5 py-4 text-left text-sm text-ink transition',
+                  isActive
+                    ? 'border-2 border-blue bg-blue-tint'
+                    : 'border-line hover:border-blue/40',
                 )}
               >
                 <span>{sub}</span>
-                {isActive && <CheckCircle className="h-4 w-4 text-orange-400" />}
+                {isActive && <CheckCircle className="h-4 w-4 text-blue" />}
               </button>
             );
           })}
         </div>
-        {errorSub && <p className="mt-3 text-xs text-red-400">{errorSub}</p>}
+        {errorSub && <p className="mt-3 text-xs text-red-500">{errorSub}</p>}
       </div>
 
-      <div className="mt-10">
-        <p className={labelClass}>Quand intervenir ?</p>
+      <div className="mt-8">
+        <p className={eyebrowClass}>Quelle est l&apos;urgence ?</p>
         <div className="mt-4 grid grid-cols-2 gap-3 md:grid-cols-4">
           {URGENCIES.map((u) => {
             const Icon = u.icon;
@@ -445,13 +460,17 @@ function StepSubcategory({
                 type="button"
                 onClick={() => onPickUrgency(u.value)}
                 className={cn(
-                  'glass-card flex flex-col items-start gap-2 p-4 text-left transition hover:border-orange-400/40',
-                  isActive && 'border-orange-400/60 bg-white/[0.08] glow-orange',
+                  'card-bold flex flex-col items-start gap-2 rounded-xl p-4 text-left transition',
+                  isActive
+                    ? 'border-2 border-blue bg-blue-tint'
+                    : 'border border-line hover:border-blue/40',
                 )}
               >
-                <Icon className="h-5 w-5 text-orange-400" />
-                <span className="text-sm font-semibold text-white/90">{u.label}</span>
-                <span className="text-xs text-stone-500">{u.hint}</span>
+                <Icon
+                  className={cn('h-5 w-5', isActive ? 'text-blue' : 'text-muted')}
+                />
+                <span className="text-sm font-semibold text-ink">{u.label}</span>
+                <span className="text-xs text-muted">{u.hint}</span>
               </button>
             );
           })}
@@ -473,21 +492,21 @@ function StepLocation({
 }) {
   return (
     <div>
-      <p className={labelClass}>Étape 3 / 4</p>
-      <h2 className="mt-3 text-3xl font-bold tracking-tight text-white/90 md:text-5xl">
-        Où intervenir ?
+      <p className={eyebrowClass}>Étape 3 / 5</p>
+      <h2 className="mt-3 font-display font-black text-3xl tracking-tight text-ink md:text-4xl">
+        OÙ INTERVENIR ?
       </h2>
-      <p className="mt-3 text-base leading-relaxed text-stone-300 md:text-lg">
+      <p className="mt-2 text-base leading-relaxed text-muted">
         L&apos;adresse exacte du chantier.
       </p>
 
-      <div className="mt-10 space-y-5">
+      <div className="mt-8 space-y-5">
         <div>
-          <label htmlFor="address" className={labelClass}>
+          <label htmlFor="address" className={eyebrowClass}>
             Adresse
           </label>
           <div className="relative mt-3">
-            <MapPin className="pointer-events-none absolute left-5 top-1/2 h-4 w-4 -translate-y-1/2 text-orange-400" />
+            <MapPin className="pointer-events-none absolute left-5 top-1/2 h-4 w-4 -translate-y-1/2 text-blue" />
             <input
               id="address"
               type="text"
@@ -497,13 +516,13 @@ function StepLocation({
             />
           </div>
           {errors.address && (
-            <p className="mt-2 text-xs text-red-400">{errors.address.message}</p>
+            <p className="mt-2 text-xs text-red-500">{errors.address.message}</p>
           )}
         </div>
 
         <div className="grid grid-cols-1 gap-5 md:grid-cols-[1fr_180px]">
           <div>
-            <label htmlFor="city" className={labelClass}>
+            <label htmlFor="city" className={eyebrowClass}>
               Ville
             </label>
             <input
@@ -514,12 +533,12 @@ function StepLocation({
               {...register('city')}
             />
             {errors.city && (
-              <p className="mt-2 text-xs text-red-400">{errors.city.message}</p>
+              <p className="mt-2 text-xs text-red-500">{errors.city.message}</p>
             )}
           </div>
 
           <div>
-            <label htmlFor="postalCode" className={labelClass}>
+            <label htmlFor="postalCode" className={eyebrowClass}>
               Code postal
             </label>
             <input
@@ -532,7 +551,7 @@ function StepLocation({
               {...register('postalCode')}
             />
             {errors.postalCode && (
-              <p className="mt-2 text-xs text-red-400">{errors.postalCode.message}</p>
+              <p className="mt-2 text-xs text-red-500">{errors.postalCode.message}</p>
             )}
           </div>
         </div>
@@ -550,22 +569,22 @@ function StepContact({
 }) {
   return (
     <div>
-      <p className={labelClass}>Étape 4 / 4</p>
-      <h2 className="mt-3 text-3xl font-bold tracking-tight text-white/90 md:text-5xl">
-        Comment te <span className="text-gradient">rappeler</span> ?
+      <p className={eyebrowClass}>Étape 4 / 5</p>
+      <h2 className="mt-3 font-display font-black text-3xl tracking-tight text-ink md:text-4xl">
+        COMMENT VOUS RAPPELER ?
       </h2>
-      <p className="mt-3 text-base leading-relaxed text-stone-300 md:text-lg">
-        Un artisan certifié te rappelle dans les minutes qui suivent.
+      <p className="mt-2 text-base leading-relaxed text-muted">
+        Un artisan certifié vous rappelle dans les minutes qui suivent.
       </p>
 
-      <div className="mt-10 space-y-5">
+      <div className="mt-8 space-y-5">
         <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
           <div>
-            <label htmlFor="phone" className={labelClass}>
+            <label htmlFor="phone" className={eyebrowClass}>
               Téléphone
             </label>
             <div className="relative mt-3">
-              <Phone className="pointer-events-none absolute left-5 top-1/2 h-4 w-4 -translate-y-1/2 text-orange-400" />
+              <Phone className="pointer-events-none absolute left-5 top-1/2 h-4 w-4 -translate-y-1/2 text-blue" />
               <input
                 id="phone"
                 type="tel"
@@ -575,33 +594,33 @@ function StepContact({
               />
             </div>
             {errors.phone && (
-              <p className="mt-2 text-xs text-red-400">{errors.phone.message}</p>
+              <p className="mt-2 text-xs text-red-500">{errors.phone.message}</p>
             )}
           </div>
 
           <div>
-            <label htmlFor="email" className={labelClass}>
+            <label htmlFor="email" className={eyebrowClass}>
               Email
             </label>
             <div className="relative mt-3">
-              <Mail className="pointer-events-none absolute left-5 top-1/2 h-4 w-4 -translate-y-1/2 text-orange-400" />
+              <Mail className="pointer-events-none absolute left-5 top-1/2 h-4 w-4 -translate-y-1/2 text-blue" />
               <input
                 id="email"
                 type="email"
-                placeholder="ton@email.fr"
+                placeholder="votre@email.fr"
                 className={cn(inputClass, 'pl-12')}
                 {...register('email')}
               />
             </div>
             {errors.email && (
-              <p className="mt-2 text-xs text-red-400">{errors.email.message}</p>
+              <p className="mt-2 text-xs text-red-500">{errors.email.message}</p>
             )}
           </div>
         </div>
 
         <div>
-          <label htmlFor="description" className={labelClass}>
-            Décris ton problème (optionnel)
+          <label htmlFor="description" className={eyebrowClass}>
+            Décrivez votre problème (optionnel)
           </label>
           <textarea
             id="description"
@@ -632,20 +651,20 @@ function StepConfirmation({
         initial={{ scale: 0, rotate: -30 }}
         animate={{ scale: 1, rotate: 0 }}
         transition={{ duration: 0.5, ease: [0.34, 1.56, 0.64, 1] }}
-        className="flex h-24 w-24 items-center justify-center rounded-full border border-emerald-400/30 bg-emerald-400/10"
+        className="flex h-20 w-20 items-center justify-center rounded-full bg-blue-tint"
       >
-        <CheckCircle className="h-16 w-16 text-emerald-400" strokeWidth={1.5} />
+        <CheckCircle className="h-12 w-12 text-blue" strokeWidth={1.5} />
       </motion.div>
 
-      <h2 className="mt-8 text-3xl font-bold tracking-tight text-white/90 md:text-5xl">
-        Demande envoyée !
+      <h2 className="mt-6 font-display font-black text-3xl tracking-tight text-ink md:text-4xl">
+        DEMANDE ENVOYÉE !
       </h2>
-      <p className="mt-3 max-w-md text-base leading-relaxed text-stone-300 md:text-lg">
-        Un artisan D-Panna certifié va te recontacter dans les plus brefs délais.
+      <p className="mt-3 max-w-md text-base leading-relaxed text-muted">
+        Un artisan D-Panna certifié va vous recontacter dans les plus brefs délais. Gardez votre téléphone à portée.
       </p>
 
-      <div className="glass-card mt-10 w-full max-w-md p-6 text-left">
-        <p className={labelClass}>Récapitulatif</p>
+      <div className="card-bold mt-8 w-full max-w-md rounded-xl border border-line p-5 text-left">
+        <p className={eyebrowClass}>Récapitulatif</p>
         <dl className="mt-4 space-y-3 text-sm">
           <RecapRow label="Catégorie" value={cat?.label ?? values.category} />
           <RecapRow label="Intervention" value={values.subcategory} />
@@ -662,7 +681,7 @@ function StepConfirmation({
       <button
         type="button"
         onClick={onClose}
-        className="mt-10 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-8 py-4 text-sm font-semibold text-white/90 transition hover:border-white/30"
+        className="mt-8 inline-flex items-center gap-2 rounded-xl border border-line px-6 py-3 text-sm font-medium text-ink transition hover:border-blue"
       >
         Fermer
       </button>
@@ -672,9 +691,9 @@ function StepConfirmation({
 
 function RecapRow({ label, value }: { label: string; value: string }) {
   return (
-    <div className="flex items-start justify-between gap-4 border-b border-white/5 pb-3 last:border-0 last:pb-0">
-      <dt className="text-xs uppercase tracking-widest text-stone-500">{label}</dt>
-      <dd className="text-right text-sm text-white/90">{value}</dd>
+    <div className="flex items-start justify-between gap-4 border-b border-line pb-3 last:border-0 last:pb-0">
+      <dt className="text-xs uppercase tracking-widest text-muted">{label}</dt>
+      <dd className="text-right text-sm text-ink">{value}</dd>
     </div>
   );
 }

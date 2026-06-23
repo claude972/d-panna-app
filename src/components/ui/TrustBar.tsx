@@ -1,14 +1,13 @@
 'use client'
 
 import { TRUST_LOGOS } from '@/lib/constants'
-import { cn } from '@/lib/utils'
 
 export default function TrustBar() {
   const logos = [...TRUST_LOGOS, ...TRUST_LOGOS]
 
   return (
-    <section className="py-12 px-6 border-y border-white/5 overflow-hidden bg-stone-950">
-      <p className="text-xs uppercase tracking-widest text-stone-500 text-center mb-8">
+    <section className="py-10 px-6 border-y border-line overflow-hidden bg-white">
+      <p className="font-display font-extrabold text-[11px] uppercase tracking-[0.14em] text-muted text-center mb-8">
         Ils nous font confiance
       </p>
 
@@ -25,11 +24,7 @@ export default function TrustBar() {
           {logos.map((logo, index) => (
             <span
               key={`${logo}-${index}`}
-              className={cn(
-                'font-serif italic text-2xl md:text-3xl text-stone-500',
-                'transition-colors duration-300 ease-out hover:text-white/70',
-                'whitespace-nowrap shrink-0'
-              )}
+              className="font-display font-extrabold text-2xl md:text-3xl text-muted whitespace-nowrap shrink-0 transition-colors duration-300 ease-out hover:text-ink"
             >
               {logo}
             </span>

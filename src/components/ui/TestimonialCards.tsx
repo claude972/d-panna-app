@@ -52,14 +52,14 @@ export default function TestimonialCards() {
   const current = TESTIMONIALS[index];
 
   return (
-    <section className="relative bg-stone-950 py-24 px-6">
+    <section className="relative bg-white py-24 px-6">
       <div className="mx-auto max-w-6xl">
         <div className="mb-14 text-center">
-          <span className="text-xs uppercase tracking-widest text-orange-400">
+          <span className="font-display font-extrabold text-[11px] uppercase tracking-[0.14em] text-blue">
             Témoignages
           </span>
-          <h2 className="mt-4 text-3xl font-bold tracking-tight text-white/90 md:text-5xl">
-            Ils ont fait appel à nous
+          <h2 className="mt-4 font-display font-black text-ink text-3xl md:text-5xl uppercase tracking-tight">
+            ILS NOUS ONT APPELÉS
           </h2>
         </div>
 
@@ -72,7 +72,7 @@ export default function TestimonialCards() {
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: direction > 0 ? -80 : 80 }}
               transition={{ duration: 0.5, ease: "easeOut" }}
-              className="glass-card p-10 md:p-12"
+              className="card-bold p-10 md:p-12"
             >
               <div className="flex gap-1" aria-label={`Note ${current.rating} sur 5`}>
                 {Array.from({ length: 5 }).map((_, i) => (
@@ -81,26 +81,26 @@ export default function TestimonialCards() {
                     className={cn(
                       "h-5 w-5",
                       i < current.rating
-                        ? "fill-orange-400 text-orange-400"
-                        : "text-white/20",
+                        ? "fill-yellow text-yellow"
+                        : "text-line",
                     )}
                   />
                 ))}
               </div>
 
-              <p className="mt-8 text-xl italic leading-relaxed text-white/90 md:text-2xl">
+              <p className="mt-8 text-xl italic leading-relaxed text-ink md:text-2xl">
                 « {current.text} »
               </p>
 
               <div className="mt-10 flex items-center gap-4">
-                <div className="gradient-orange-amber flex h-14 w-14 items-center justify-center rounded-full text-base font-bold text-stone-950">
+                <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-ink text-white font-display font-extrabold text-base">
                   {getInitials(current.name)}
                 </div>
                 <div className="flex flex-col">
-                  <span className="text-base font-semibold text-white/90">
+                  <span className="font-display font-extrabold text-base text-ink">
                     {current.name}
                   </span>
-                  <span className="text-sm text-stone-500">
+                  <span className="text-sm text-muted">
                     {current.city}
                     {current.service ? ` · ${current.service}` : ""}
                   </span>
@@ -113,7 +113,7 @@ export default function TestimonialCards() {
             type="button"
             onClick={prev}
             aria-label="Témoignage précédent"
-            className="absolute left-0 top-1/2 -translate-x-2 -translate-y-1/2 rounded-full border border-white/10 bg-white/5 p-3 text-white/80 backdrop-blur-xl transition-all duration-300 ease-out hover:border-orange-500/40 hover:text-orange-400 md:-translate-x-16"
+            className="absolute left-0 top-1/2 -translate-x-2 -translate-y-1/2 rounded-full border border-line bg-white p-3 text-muted transition-all duration-300 ease-out hover:border-blue hover:text-blue md:-translate-x-16"
           >
             <ChevronLeft className="h-5 w-5" />
           </button>
@@ -121,7 +121,7 @@ export default function TestimonialCards() {
             type="button"
             onClick={next}
             aria-label="Témoignage suivant"
-            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-2 rounded-full border border-white/10 bg-white/5 p-3 text-white/80 backdrop-blur-xl transition-all duration-300 ease-out hover:border-orange-500/40 hover:text-orange-400 md:translate-x-16"
+            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-2 rounded-full border border-line bg-white p-3 text-muted transition-all duration-300 ease-out hover:border-blue hover:text-blue md:translate-x-16"
           >
             <ChevronRight className="h-5 w-5" />
           </button>
@@ -137,8 +137,8 @@ export default function TestimonialCards() {
               className={cn(
                 "h-2 rounded-full transition-all duration-300 ease-out",
                 i === index
-                  ? "w-8 bg-orange-500"
-                  : "w-2 bg-white/20 hover:bg-white/40",
+                  ? "w-8 bg-blue"
+                  : "w-2 bg-line hover:bg-muted",
               )}
             />
           ))}

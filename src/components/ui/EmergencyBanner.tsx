@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { Phone, X } from 'lucide-react'
+import { AlertTriangle, Phone, X } from 'lucide-react'
 import { PHONE_URGENCY } from '@/lib/constants'
 import { cn } from '@/lib/utils'
 
@@ -19,32 +19,29 @@ export default function EmergencyBanner({ dismissible = false }: EmergencyBanner
   return (
     <div
       className={cn(
-        'fixed top-0 inset-x-0 z-50 h-10',
-        'bg-gradient-to-r from-orange-500 to-amber-500',
+        'relative w-full z-40 h-10',
+        'bg-coral',
         'flex items-center justify-center gap-3',
-        'text-sm font-semibold text-stone-950',
         'px-4'
       )}
       role="region"
       aria-label="Bandeau d'urgence"
     >
-      <span aria-hidden="true">⚠️</span>
+      <AlertTriangle className="h-3.5 w-3.5 text-white shrink-0" aria-hidden="true" />
 
-      <span
-        className="inline-block h-2 w-2 rounded-full bg-stone-950 animate-pulse"
-        aria-hidden="true"
-      />
-
-      <span className="hidden md:inline">
-        Urgence 24/7 — Dépanneur joignable immédiatement
+      <span className="font-display font-extrabold text-[11px] uppercase text-white tracking-wide hidden md:inline">
+        Urgence 24/7 — un dépanneur joignable maintenant
       </span>
-      <span className="md:hidden">Urgence 24/7</span>
+      <span className="font-display font-extrabold text-[11px] uppercase text-white tracking-wide md:hidden">
+        Urgence 24/7
+      </span>
 
-      <span className="opacity-60" aria-hidden="true">•</span>
+      <span className="text-white/60" aria-hidden="true">·</span>
 
       <a
         href={telHref}
-        className="inline-flex items-center gap-1.5 underline underline-offset-2 hover:no-underline"
+        className="inline-flex items-center gap-1.5 font-display font-extrabold text-[11px] uppercase text-white underline underline-offset-2 hover:no-underline"
+        aria-label={`Appeler le ${PHONE_URGENCY}`}
       >
         <Phone className="h-3.5 w-3.5" aria-hidden="true" />
         <span>{PHONE_URGENCY}</span>
@@ -54,7 +51,7 @@ export default function EmergencyBanner({ dismissible = false }: EmergencyBanner
         <button
           type="button"
           onClick={() => setHidden(true)}
-          className="absolute right-3 inline-flex h-6 w-6 items-center justify-center rounded-full text-stone-950 hover:bg-stone-950/10 transition-colors"
+          className="absolute right-3 inline-flex h-6 w-6 items-center justify-center rounded-full text-white hover:bg-white/10 transition-colors"
           aria-label="Fermer le bandeau d'urgence"
         >
           <X className="h-4 w-4" />

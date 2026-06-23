@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { ArrowUpRight, Newspaper } from 'lucide-react';
+import { ImageIcon } from 'lucide-react';
 
 import type { BlogPost } from '@/types/lead';
 import { cn } from '@/lib/utils';
@@ -30,64 +30,57 @@ export default function BlogCard({ post, featured = false }: BlogCardProps) {
     <Link
       href={`/blog/${post.slug}`}
       className={cn(
-        'glass-card group relative flex h-full flex-col overflow-hidden',
-        'transition-all duration-500 ease-out',
-        'hover:border-orange-500/40 hover:shadow-[0_0_40px_-12px_rgba(249,115,22,0.35)]',
+        'card-bold group relative flex h-full flex-col overflow-hidden rounded-2xl',
+        'transition-transform duration-300 ease-out hover:-translate-y-0.5',
         featured && 'md:col-span-2',
       )}
     >
       {/* Image / placeholder */}
-      <div className="relative aspect-video w-full overflow-hidden">
+      <div className="relative w-full overflow-hidden h-[90px] bg-blue-tint flex items-center justify-center">
         {post.image ? (
           <Image
             src={post.image}
             alt={post.title}
             fill
             sizes={featured ? '(min-width: 768px) 66vw, 100vw' : '(min-width: 768px) 33vw, 100vw'}
-            className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+            className="object-cover"
           />
         ) : (
-          <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-orange-500/20 to-amber-500/10 transition-transform duration-700 ease-out group-hover:scale-105">
-            <Newspaper
-              className="h-12 w-12 text-orange-400/70"
-              strokeWidth={1.5}
-              aria-hidden="true"
-            />
-          </div>
+          <ImageIcon
+            className="h-8 w-8 text-blue"
+            strokeWidth={1.5}
+            aria-hidden="true"
+          />
         )}
-
-        {/* Catégorie */}
-        <span className="glass-card absolute left-4 top-4 px-3 py-1 text-xs uppercase tracking-widest text-orange-400">
-          {post.category}
-        </span>
       </div>
 
       {/* Contenu */}
-      <div className="flex flex-1 flex-col p-6">
+      <div className="flex flex-1 flex-col p-5">
+        {/* Badge catégorie */}
+        <span className="mb-3 self-start font-display font-extrabold text-[11px] rounded-lg px-2.5 py-1 bg-blue-tint text-blue-dark uppercase tracking-[0.14em]">
+          {post.category}
+        </span>
+
         <h3
           className={cn(
-            'mb-3 font-bold text-white/90 line-clamp-2',
-            featured ? 'text-2xl md:text-3xl' : 'text-xl',
+            'mb-3 font-display font-extrabold text-ink line-clamp-2',
+            featured ? 'text-2xl md:text-3xl' : 'text-lg',
           )}
         >
           {post.title}
         </h3>
 
-        <p className="mb-6 text-sm text-stone-400 line-clamp-3 leading-relaxed">
+        <p className="mb-6 text-sm text-muted line-clamp-3 leading-relaxed">
           {post.excerpt}
         </p>
 
         <div className="mt-auto flex items-center justify-between">
           <time
             dateTime={post.date}
-            className="text-xs uppercase tracking-widest text-stone-500"
+            className="text-xs text-muted"
           >
             {formatDate(post.date)}
           </time>
-          <ArrowUpRight
-            className="h-5 w-5 text-orange-400 transition-transform duration-300 ease-out group-hover:translate-x-1 group-hover:-translate-y-1"
-            aria-hidden="true"
-          />
         </div>
       </div>
     </Link>

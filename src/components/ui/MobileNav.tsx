@@ -72,7 +72,7 @@ export function MobileNav({ isOpen, onClose }: MobileNavProps) {
           role="dialog"
           aria-modal="true"
           aria-label="Menu principal"
-          className="fixed inset-0 z-[90] bg-stone-950/98 backdrop-blur-2xl"
+          className="fixed inset-0 z-[90] bg-ink"
           variants={containerVariants}
           initial="hidden"
           animate="visible"
@@ -84,8 +84,8 @@ export function MobileNav({ isOpen, onClose }: MobileNavProps) {
             aria-label="Fermer le menu"
             className={cn(
               'absolute right-6 top-6 z-10 inline-flex h-12 w-12 items-center justify-center',
-              'rounded-full border border-white/10 bg-white/5 text-white/90',
-              'transition-colors duration-300 ease-out hover:border-orange-400/40 hover:text-orange-400',
+              'rounded-xl border border-white/10 bg-white/5 text-white',
+              'transition-colors duration-300 ease-out hover:bg-white/10',
             )}
           >
             <X className="h-5 w-5" aria-hidden="true" />
@@ -104,8 +104,8 @@ export function MobileNav({ isOpen, onClose }: MobileNavProps) {
                     href={link.href}
                     onClick={onClose}
                     className={cn(
-                      'block text-3xl font-bold tracking-tight text-white/90',
-                      'transition-colors duration-300 ease-out hover:text-orange-400',
+                      'block font-display font-extrabold text-2xl text-white',
+                      'transition-colors duration-300 ease-out hover:text-yellow',
                     )}
                   >
                     {link.label}
@@ -124,25 +124,25 @@ export function MobileNav({ isOpen, onClose }: MobileNavProps) {
                 href="/questionnaire"
                 onClick={onClose}
                 className={cn(
-                  'gradient-orange-amber glow-orange',
-                  'inline-flex items-center justify-center rounded-full px-8 py-4',
-                  'text-base font-semibold text-stone-950',
-                  'transition-transform duration-300 ease-out hover:scale-[1.02]',
+                  'inline-flex items-center justify-center gap-2',
+                  'bg-yellow text-ink font-display font-extrabold',
+                  'rounded-xl px-8 py-4 text-base',
+                  'transition hover:brightness-95',
                 )}
               >
-                Démarrer mon diagnostic
+                Trouver un artisan
               </a>
               <a
                 href={phoneHref}
                 onClick={onClose}
                 className={cn(
-                  'glass-card',
                   'inline-flex items-center justify-center gap-3 px-6 py-4',
-                  'text-base font-medium text-white/90',
-                  'transition-colors duration-300 ease-out hover:text-orange-400',
+                  'rounded-xl border border-white/10 bg-white/5',
+                  'font-display font-semibold text-base text-white',
+                  'transition-colors duration-300 ease-out hover:bg-white/10',
                 )}
               >
-                <Phone className="h-4 w-4 text-orange-400" aria-hidden="true" />
+                <Phone className="h-4 w-4" aria-hidden="true" />
                 <span>{PHONE_URGENCY}</span>
               </a>
             </motion.div>

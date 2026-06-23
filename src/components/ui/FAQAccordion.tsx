@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { Plus } from 'lucide-react';
+import { Minus, Plus } from 'lucide-react';
 import { FAQ } from '@/lib/constants';
 import { cn } from '@/lib/utils';
 
@@ -10,14 +10,14 @@ export default function FAQAccordion() {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   return (
-    <section className="relative py-24 px-6">
+    <section className="relative bg-white py-24 px-6">
       <div className="mx-auto max-w-3xl">
         <div className="mb-12 text-center">
-          <span className="text-xs uppercase tracking-widest text-orange-400">
+          <span className="font-display font-extrabold text-[11px] uppercase tracking-[0.14em] text-blue">
             FAQ
           </span>
-          <h2 className="mt-3 text-3xl md:text-5xl font-bold tracking-tight text-white/90">
-            Vos questions, <span className="text-gradient">nos réponses</span>
+          <h2 className="mt-3 font-display font-black text-ink text-3xl md:text-5xl uppercase tracking-tight">
+            VOS QUESTIONS
           </h2>
         </div>
 
@@ -28,10 +28,8 @@ export default function FAQAccordion() {
               <div
                 key={item.question}
                 className={cn(
-                  'glass-card overflow-hidden rounded-2xl transition-colors duration-300',
-                  isOpen
-                    ? 'border-orange-500/50'
-                    : 'hover:border-orange-500/30',
+                  'card-bold overflow-hidden rounded-xl transition-colors duration-300',
+                  isOpen && 'bg-surface-2',
                 )}
               >
                 <button
@@ -41,16 +39,16 @@ export default function FAQAccordion() {
                   aria-controls={`faq-panel-${index}`}
                   className="flex w-full items-center justify-between gap-6 p-6 text-left"
                 >
-                  <span className="text-lg font-semibold text-white/90">
+                  <span className="font-display font-extrabold text-ink text-lg">
                     {item.question}
                   </span>
-                  <motion.span
-                    animate={{ rotate: isOpen ? 180 : 0 }}
-                    transition={{ duration: 0.4, ease: 'easeOut' }}
-                    className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-white/10 bg-white/5 text-orange-400"
-                  >
-                    <Plus className="h-4 w-4" />
-                  </motion.span>
+                  <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-line bg-white text-blue">
+                    {isOpen ? (
+                      <Minus className="h-4 w-4" />
+                    ) : (
+                      <Plus className="h-4 w-4" />
+                    )}
+                  </span>
                 </button>
 
                 <AnimatePresence initial={false}>
@@ -64,7 +62,7 @@ export default function FAQAccordion() {
                       transition={{ duration: 0.4, ease: 'easeOut' }}
                       className="overflow-hidden"
                     >
-                      <div className="px-6 pb-6 text-base leading-relaxed text-stone-300">
+                      <div className="px-6 pb-6 text-base leading-relaxed text-muted">
                         {item.answer}
                       </div>
                     </motion.div>

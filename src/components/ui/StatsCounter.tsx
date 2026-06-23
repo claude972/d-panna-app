@@ -3,7 +3,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { STATS } from '@/lib/constants';
-import { cn } from '@/lib/utils';
 
 type ParsedStat = {
   prefix: string;
@@ -66,13 +65,11 @@ function parseStat(value: string): ParsedStat {
 function formatNumber(n: number, decimals: number): string {
   const rounded = decimals > 0 ? n.toFixed(decimals) : Math.round(n).toString();
   if (decimals > 0) {
-    // garder virgule française
     return rounded.replace('.', ',');
   }
-  // séparateur de milliers fin (espace insécable) pour les grands nombres
   const asInt = Math.round(n);
   if (asInt >= 1000) {
-    return asInt.toLocaleString('fr-FR').replace(/ /g, ' ');
+    return asInt.toLocaleString('fr-FR').replace(/ /g, ' ');
   }
   return rounded;
 }
@@ -125,24 +122,20 @@ export default function StatsCounter() {
   const parsed = STATS.map((s) => parseStat(s.value));
 
   return (
-    <section className="relative py-20 px-6">
-      <div ref={sectionRef} className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-6xl mx-auto">
+    <section className="bg-blue py-16 px-6">
+      <div ref={sectionRef} className="grid grid-cols-2 md:grid-cols-4 gap-0 max-w-6xl mx-auto">
         {parsed.map((stat, i) => (
           <motion.div
             key={stat.raw}
             initial={{ opacity: 0, y: 24 }}
             animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 24 }}
             transition={{ duration: 0.5, delay: i * 0.08, ease: 'easeOut' }}
-            className={cn(
-              'glass-card p-8 text-center',
-              'transition-colors duration-300',
-              'hover:border-orange-500/40',
-            )}
+            className="flex flex-col items-center justify-center text-center px-6 py-8 border-r border-white/10 last:border-r-0 [&:nth-child(2)]:border-r-0 md:[&:nth-child(2)]:border-r md:[&:nth-child(2)]:border-white/10"
           >
-            <div className="text-5xl md:text-6xl font-black text-gradient leading-none">
+            <div className="font-display font-black text-yellow text-3xl leading-none">
               <CounterCell stat={stat} shouldAnimate={inView} />
             </div>
-            <div className="mt-3 text-stone-400 text-sm uppercase tracking-widest">
+            <div className="mt-2 text-[#dbe2fb] text-xs uppercase tracking-widest leading-snug max-w-[10rem]">
               {STATS[i].label}
             </div>
           </motion.div>

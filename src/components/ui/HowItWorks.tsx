@@ -16,23 +16,21 @@ export default function HowItWorks() {
   const isInView = useInView(ref, { once: true, margin: '-100px' });
 
   return (
-    <section className="relative py-32 px-6 bg-stone-950 overflow-hidden">
-      <div className="absolute inset-0 grid-bg opacity-30 pointer-events-none" />
-
-      <div className="relative max-w-6xl mx-auto" ref={ref}>
+    <section className="py-32 px-6 bg-surface-2">
+      <div className="max-w-6xl mx-auto" ref={ref}>
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
           transition={{ duration: 0.6, ease: 'easeOut' }}
           className="text-center mb-20"
         >
-          <span className="text-xs uppercase tracking-widest text-orange-400">
-            Process
+          <span className="font-display font-extrabold text-[11px] uppercase tracking-[0.14em] text-blue">
+            Comment ça marche
           </span>
-          <h2 className="mt-4 text-3xl md:text-5xl font-bold tracking-tight text-white/90">
-            3 étapes, un seul appel
+          <h2 className="mt-4 text-3xl md:text-5xl font-display font-black text-ink">
+            3 ÉTAPES, UN SEUL APPEL
           </h2>
-          <p className="mt-4 text-base md:text-lg text-stone-300 leading-relaxed max-w-2xl mx-auto">
+          <p className="mt-4 text-base md:text-lg text-muted leading-relaxed max-w-2xl mx-auto">
             Du diagnostic à la résolution, on s'occupe de tout pour vous.
           </p>
         </motion.div>
@@ -41,6 +39,7 @@ export default function HowItWorks() {
           {HOW_IT_WORKS.map((step, index) => {
             const Icon = ICON_MAP[step.icon] ?? Wrench;
             const isLast = index === HOW_IT_WORKS.length - 1;
+            const numLabel = String(index + 1).padStart(2, '0');
 
             return (
               <div key={step.num} className="relative">
@@ -56,22 +55,23 @@ export default function HowItWorks() {
                     delay: index * 0.15,
                     ease: 'easeOut',
                   }}
-                  className="glass-card hover-lift relative p-8 h-full overflow-hidden"
+                  className="card-bold p-5 rounded-2xl hover:-translate-y-0.5 transition h-full flex flex-col"
                 >
-                  <Icon
-                    className="absolute top-6 right-6 w-12 h-12 text-orange-400"
-                    aria-hidden="true"
-                  />
-
-                  <div className="text-[120px] md:text-[180px] font-black text-stone-800 leading-none mb-4 select-none">
-                    {step.num}
+                  <div className="flex items-start justify-between mb-4">
+                    <span className="font-display font-black text-3xl text-blue leading-none">
+                      {numLabel}
+                    </span>
+                    <Icon
+                      className="w-7 h-7 text-blue"
+                      aria-hidden="true"
+                    />
                   </div>
 
-                  <h3 className="text-2xl font-bold text-white/90 mb-3">
+                  <h3 className="font-display font-extrabold text-ink text-lg mb-2">
                     {step.title}
                   </h3>
 
-                  <p className="text-stone-400 leading-relaxed">
+                  <p className="text-muted leading-relaxed text-sm">
                     {step.description}
                   </p>
                 </motion.div>
@@ -101,32 +101,19 @@ export default function HowItWorks() {
                     >
                       <path
                         d="M2 12 H40"
-                        stroke="url(#arrow-gradient)"
+                        stroke="#2C53E6"
                         strokeWidth="2"
                         strokeLinecap="round"
                         strokeDasharray="4 4"
                       />
                       <path
                         d="M36 6 L44 12 L36 18"
-                        stroke="url(#arrow-gradient)"
+                        stroke="#2C53E6"
                         strokeWidth="2"
                         strokeLinecap="round"
                         strokeLinejoin="round"
                         fill="none"
                       />
-                      <defs>
-                        <linearGradient
-                          id="arrow-gradient"
-                          x1="0"
-                          y1="0"
-                          x2="48"
-                          y2="0"
-                          gradientUnits="userSpaceOnUse"
-                        >
-                          <stop stopColor="#f97316" />
-                          <stop offset="1" stopColor="#fbbf24" />
-                        </linearGradient>
-                      </defs>
                     </svg>
                   </motion.div>
                 )}

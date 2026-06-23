@@ -32,39 +32,25 @@ export default function FloatingCTA({ onClick }: FloatingCTAProps) {
           transition={{ duration: 0.4, ease: 'easeOut' }}
           className="fixed bottom-6 right-6 z-50"
         >
-          <div className="relative">
-            <span
-              aria-hidden="true"
-              className="absolute inset-0 rounded-full bg-orange-500/30 animate-ping"
-            />
-            <button
-              type="button"
-              onClick={onClick}
-              aria-label="J'ai besoin d'un dépanneur"
-              className={cn(
-                'gradient-orange-amber glow-orange',
-                'relative flex items-center gap-3 rounded-full',
-                'px-5 py-4 md:px-6',
-                'text-white font-semibold',
-                'shadow-2xl transition-transform duration-300 ease-out',
-                'hover:scale-105 active:scale-95'
-              )}
-            >
-              <Phone className="w-5 h-5" strokeWidth={2.5} />
-              <span className="hidden md:inline whitespace-nowrap">
-                J&apos;ai besoin d&apos;un dépanneur
-              </span>
-              <span
-                className={cn(
-                  'md:hidden',
-                  'rounded-full bg-white/20 backdrop-blur-sm',
-                  'px-2 py-0.5 text-[10px] font-bold uppercase tracking-widest'
-                )}
-              >
-                24/7
-              </span>
-            </button>
-          </div>
+          <button
+            type="button"
+            onClick={onClick}
+            aria-label="J'ai besoin d'un dépanneur"
+            className={cn(
+              'inline-flex items-center gap-3 rounded-full',
+              'bg-yellow text-ink font-display font-extrabold',
+              'px-5 py-3 md:px-6',
+              'shadow-lg transition hover:brightness-95 active:scale-95',
+            )}
+          >
+            <Phone className="w-5 h-5 shrink-0" strokeWidth={2.5} aria-hidden="true" />
+            <span className="hidden md:inline whitespace-nowrap">
+              J&apos;ai besoin d&apos;un dépanneur
+            </span>
+            <span className="md:hidden font-display font-extrabold text-[11px] uppercase tracking-wide">
+              24/7
+            </span>
+          </button>
         </motion.div>
       )}
     </AnimatePresence>

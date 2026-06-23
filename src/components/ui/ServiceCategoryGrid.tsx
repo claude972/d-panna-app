@@ -30,7 +30,7 @@ export default function ServiceCategoryGrid() {
   return (
     <section
       ref={sectionRef}
-      className="relative py-24 px-6"
+      className="py-24 px-6 bg-surface-2"
       aria-labelledby="services-heading"
     >
       <div className="mx-auto max-w-7xl">
@@ -39,7 +39,7 @@ export default function ServiceCategoryGrid() {
             initial={{ opacity: 0, y: 12 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.4, ease: 'easeOut' }}
-            className="text-xs uppercase tracking-widest text-orange-400"
+            className="font-display font-extrabold text-[11px] uppercase tracking-[0.14em] text-blue"
           >
             Nos services
           </motion.span>
@@ -48,9 +48,9 @@ export default function ServiceCategoryGrid() {
             initial={{ opacity: 0, y: 16 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.5, ease: 'easeOut', delay: 0.05 }}
-            className="mt-4 text-3xl md:text-5xl font-bold tracking-tight text-white/90"
+            className="mt-4 text-3xl md:text-5xl font-display font-black text-ink"
           >
-            {CATEGORIES.length} spécialités, un seul réflexe
+            {CATEGORIES.length} SPÉCIALITÉS
           </motion.h2>
         </div>
 
@@ -75,32 +75,31 @@ export default function ServiceCategoryGrid() {
                 <Link
                   href={`/categories/${cat.slug}`}
                   className={cn(
-                    'glass-card group relative flex h-full w-full flex-col justify-between overflow-hidden p-6',
-                    'cursor-pointer transition-all duration-300 ease-out',
-                    'hover:scale-[1.02] hover:glow-orange',
+                    'card-bold group relative flex h-full w-full flex-col justify-between overflow-hidden rounded-2xl p-4',
+                    'cursor-pointer transition-all duration-200 ease-out',
+                    'hover:-translate-y-0.5 hover:border-blue',
                   )}
                 >
-                  <div
-                    className="gradient-orange-amber pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-10"
-                    aria-hidden
-                  />
-
-                  <Icon
-                    className="relative w-12 h-12 text-orange-400 transition-colors duration-300 group-hover:text-amber-300"
-                    strokeWidth={1.5}
-                  />
-
-                  <div className="relative">
-                    <h3 className="text-xl md:text-2xl font-bold text-white/90 leading-tight">
-                      {cat.label}
-                    </h3>
-                    <p className="mt-1 text-sm text-stone-500">{subtitle}</p>
+                  <div className="flex items-start justify-between">
+                    <div className="bg-blue-tint rounded-xl p-2 flex items-center justify-center">
+                      <Icon
+                        className="h-9 w-9 text-blue"
+                        strokeWidth={1.5}
+                        aria-hidden="true"
+                      />
+                    </div>
+                    <ArrowUpRight
+                      className="h-5 w-5 text-blue opacity-0 translate-x-1 -translate-y-1 transition-all duration-200 group-hover:opacity-100 group-hover:translate-x-0 group-hover:translate-y-0"
+                      aria-hidden="true"
+                    />
                   </div>
 
-                  <ArrowUpRight
-                    className="absolute bottom-5 right-5 h-5 w-5 text-orange-400 opacity-0 translate-x-1 -translate-y-1 transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-0 group-hover:translate-y-0"
-                    aria-hidden
-                  />
+                  <div>
+                    <h3 className="font-display font-extrabold text-ink text-base md:text-lg leading-tight">
+                      {cat.label}
+                    </h3>
+                    <p className="mt-1 text-xs text-muted">{subtitle}</p>
+                  </div>
                 </Link>
               </motion.div>
             );

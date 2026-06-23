@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Menu } from "lucide-react";
+import { Menu, Zap } from "lucide-react";
 import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 
@@ -31,10 +31,10 @@ export default function Header({ onMenuOpen }: HeaderProps) {
   return (
     <header
       className={cn(
-        "sticky top-0 z-50 w-full transition-all duration-300",
+        "sticky top-0 z-50 w-full bg-white transition-all duration-300",
         scrolled
-          ? "glass-card !rounded-none border-x-0 border-t-0 backdrop-blur-2xl"
-          : "bg-transparent border-b border-transparent"
+          ? "bg-white/95 border-b border-line shadow-sm"
+          : "border-b border-line"
       )}
     >
       <div
@@ -46,11 +46,15 @@ export default function Header({ onMenuOpen }: HeaderProps) {
         {/* Logo */}
         <Link
           href="/"
-          className="font-black text-2xl tracking-tight select-none"
+          className="inline-flex items-center gap-2.5 select-none"
           aria-label="D-Panna — accueil"
         >
-          <span>D-</span>
-          <span className="text-gradient">PANNA</span>
+          <span className="inline-flex items-center justify-center h-8 w-8 rounded-lg bg-blue shrink-0">
+            <Zap className="h-4 w-4 text-white" aria-hidden="true" strokeWidth={2.5} />
+          </span>
+          <span className="font-display font-black text-2xl tracking-tight text-ink">
+            D-PANNA
+          </span>
         </Link>
 
         {/* Nav desktop */}
@@ -59,7 +63,7 @@ export default function Header({ onMenuOpen }: HeaderProps) {
             <Link
               key={link.href}
               href={link.href}
-              className="text-sm font-medium text-[var(--color-text)] opacity-80 hover:opacity-100 hover:text-[var(--color-accent)] transition-colors"
+              className="font-display font-semibold text-sm text-ink hover:text-blue transition-colors"
             >
               {link.label}
             </Link>
@@ -70,9 +74,9 @@ export default function Header({ onMenuOpen }: HeaderProps) {
         <div className="hidden lg:flex items-center">
           <Link
             href="/questionnaire"
-            className="gradient-orange-amber glow-orange rounded-full px-6 py-3 text-sm font-semibold text-black hover:scale-105 transition-transform"
+            className="inline-flex items-center gap-2 bg-yellow text-ink font-display font-extrabold rounded-xl px-5 py-3 transition hover:brightness-95 cursor-pointer"
           >
-            Démarrer mon diagnostic
+            Trouver un artisan
           </Link>
         </div>
 
@@ -80,10 +84,10 @@ export default function Header({ onMenuOpen }: HeaderProps) {
         <button
           type="button"
           onClick={onMenuOpen}
-          className="lg:hidden inline-flex items-center justify-center h-11 w-11 rounded-full border border-white/10 hover:bg-white/5 transition-colors"
+          className="lg:hidden inline-flex items-center justify-center h-11 w-11 rounded-xl border-[1.5px] border-line hover:bg-surface-2 transition-colors"
           aria-label="Ouvrir le menu"
         >
-          <Menu className="h-5 w-5" />
+          <Menu className="h-5 w-5 text-ink" />
         </button>
       </div>
     </header>
