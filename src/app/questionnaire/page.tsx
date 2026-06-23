@@ -11,7 +11,7 @@ export default function QuestionnairePage() {
   return (
     <>
       <Header />
-      <div className="min-h-screen pt-20">
+      <div className="min-h-screen bg-surface-2">
         <QuestionnaireModal isOpen onClose={() => router.push('/')} />
       </div>
     </>

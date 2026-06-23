@@ -15,22 +15,14 @@ export default function CategoryCTA({ categorySlug, label }: CategoryCTAProps) {
 
   return (
     <>
-      <div className="mx-auto flex max-w-3xl flex-col items-center gap-6 text-center">
-        <h2 className="text-3xl font-black tracking-tight text-white/90 md:text-4xl">
-          Besoin d&apos;un pro en {label} ?
-        </h2>
-        <p className="text-base text-stone-400 md:text-lg">
-          Décrivez votre besoin en 30 secondes, un artisan certifié vous rappelle en moins de 20 minutes.
-        </p>
-        <button
-          type="button"
-          onClick={() => setOpen(true)}
-          className="gradient-orange-amber glow-orange group inline-flex items-center gap-2 rounded-full px-10 py-5 text-base font-semibold text-stone-950 transition-transform duration-300 ease-out hover:scale-[1.03]"
-        >
-          <span>Démarrer mon diagnostic</span>
-          <ArrowRight className="h-5 w-5 transition-transform duration-300 ease-out group-hover:translate-x-1" />
-        </button>
-      </div>
+      <button
+        type="button"
+        onClick={() => setOpen(true)}
+        className="inline-flex items-center gap-2 bg-yellow text-ink font-display font-extrabold rounded-xl px-5 py-3 hover:brightness-95 cursor-pointer"
+      >
+        <span>Démarrer mon diagnostic</span>
+        <ArrowRight className="h-5 w-5" aria-hidden="true" />
+      </button>
       <QuestionnaireModal
         isOpen={open}
         onClose={() => setOpen(false)}

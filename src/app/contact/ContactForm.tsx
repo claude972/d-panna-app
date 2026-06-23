@@ -33,12 +33,13 @@ export default function ContactForm() {
   };
 
   const inputClass =
-    'w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-base text-white/90 placeholder:text-stone-500 outline-none transition-all duration-300 focus:border-orange-400/60 focus:bg-white/8';
-  const labelClass = 'mb-2 block text-xs font-bold uppercase tracking-widest text-stone-400';
-  const errorClass = 'mt-1 text-xs text-red-400';
+    'w-full rounded-xl border border-line bg-white px-4 py-3 text-base text-ink placeholder:text-muted outline-none transition focus:border-blue focus:ring-2 focus:ring-blue/20';
+  const labelClass =
+    'mb-2 block font-display text-[11px] font-extrabold uppercase tracking-[0.14em] text-muted';
+  const errorClass = 'mt-1 text-xs text-coral';
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="glass-card space-y-5 p-8 rounded-3xl">
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
       <div>
         <label className={labelClass} htmlFor="contact-name">
           Nom
@@ -93,7 +94,7 @@ export default function ContactForm() {
       <button
         type="submit"
         disabled={isSubmitting}
-        className="gradient-orange-amber glow-orange group inline-flex w-full items-center justify-center gap-2 rounded-full px-8 py-4 text-base font-semibold text-stone-950 transition-transform duration-300 hover:scale-[1.02] disabled:opacity-60"
+        className="group inline-flex w-full items-center justify-center gap-2 rounded-xl bg-yellow px-8 py-4 text-base font-display font-extrabold text-ink transition hover:brightness-95 disabled:opacity-60"
       >
         {isSubmitting ? (
           <Loader2 className="h-5 w-5 animate-spin" />

@@ -2,6 +2,7 @@ import Header from '@/components/layout/Header';
 import BlogCard from '@/components/ui/BlogCard';
 import Footer from '@/components/ui/Footer';
 import { BLOG_POSTS } from '@/lib/constants';
+import { Search } from 'lucide-react';
 
 export const metadata = {
   title: 'Blog D-Panna — conseils & guides pour votre maison',
@@ -9,42 +10,75 @@ export const metadata = {
     'Tous nos guides, conseils d&apos;experts et astuces pour ne plus jamais subir une mauvaise surprise avec votre artisan.',
 };
 
+const FILTER_CATEGORIES = ['Tous', 'Plomberie', 'Électricité', 'Serrurerie', 'Chauffage', 'Nuisibles', 'Travaux'];
+
 export default function BlogPage() {
   return (
     <>
       <Header />
-      <main className="min-h-screen bg-stone-950 pt-20">
+      <main className="min-h-screen bg-white">
         {/* Hero */}
-        <section className="relative overflow-hidden px-6 py-24 md:py-32">
-          <div className="grid-bg pointer-events-none absolute inset-0 opacity-30" />
-          <div
-            className="pointer-events-none absolute left-1/2 top-1/2 h-[50vh] w-[50vh] -translate-x-1/2 -translate-y-1/2 rounded-full opacity-20 blur-3xl"
-            style={{
-              background:
-                'radial-gradient(circle, rgba(249,115,22,0.4) 0%, rgba(245,158,11,0.15) 40%, transparent 70%)',
-            }}
-          />
-          <div className="relative z-10 mx-auto flex max-w-4xl flex-col items-center gap-6 text-center">
-            <span className="glass-card inline-flex items-center rounded-full px-4 py-2 text-xs uppercase tracking-widest text-orange-400">
+        <section className="bg-ink px-6 py-20 md:py-28">
+          <div className="mx-auto flex max-w-3xl flex-col items-center gap-6 text-center">
+            <span className="font-display font-extrabold text-[11px] uppercase tracking-[0.14em] text-yellow">
               Le blog
             </span>
-            <h1 className="text-5xl font-black tracking-tight text-white/90 md:text-7xl">
-              Le blog D-Panna{' '}
-              <span className="text-gradient">conseils &amp; guides</span>
+            <h1 className="font-display font-black text-4xl text-white md:text-6xl leading-tight">
+              CONSEILS &amp; GUIDES<br className="hidden md:block" /> POUR VOTRE MAISON
             </h1>
-            <p className="max-w-2xl text-base text-stone-400 md:text-xl">
-              Plomberie, électricité, serrurerie, chauffage : nos artisans partagent leurs astuces
-              pour vous éviter les mauvaises surprises.
-            </p>
+            {/* Barre de recherche */}
+            <div className="relative w-full max-w-xl mt-2">
+              <Search className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-muted" />
+              <input
+                type="search"
+                placeholder="Rechercher un article…"
+                className="w-full rounded-xl bg-white py-3.5 pl-12 pr-4 text-ink text-base outline-none placeholder:text-muted focus:ring-2 focus:ring-yellow"
+              />
+            </div>
           </div>
         </section>
 
-        {/* Grid */}
-        <section className="px-6 pb-24">
+        {/* Filtres + grille */}
+        <section className="px-6 py-12 pb-24">
           <div className="mx-auto max-w-7xl">
+            {/* Chips catégories */}
+            <div className="mb-10 flex flex-wrap items-center gap-2">
+              {FILTER_CATEGORIES.map((cat, i) => (
+                <button
+                  key={cat}
+                  type="button"
+                  className={
+                    i === 0
+                      ? 'rounded-full px-4 py-1.5 font-display font-extrabold text-sm bg-ink text-white'
+                      : 'rounded-full px-4 py-1.5 font-display font-extrabold text-sm border border-line text-muted hover:border-ink hover:text-ink transition-colors'
+                  }
+                >
+                  {cat}
+                </button>
+              ))}
+            </div>
+
+            {/* Grille articles */}
             <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
               {BLOG_POSTS.map((post) => (
                 <BlogCard key={post.slug} post={post} />
+              ))}
+            </div>
+
+            {/* Pagination */}
+            <div className="mt-14 flex items-center justify-center gap-2">
+              {[1, 2, 3].map((page) => (
+                <button
+                  key={page}
+                  type="button"
+                  className={
+                    page === 1
+                      ? 'h-9 w-9 rounded-full font-display font-extrabold text-sm bg-ink text-white'
+                      : 'h-9 w-9 rounded-full font-display font-extrabold text-sm border border-line text-muted hover:border-ink hover:text-ink transition-colors'
+                  }
+                >
+                  {page}
+                </button>
               ))}
             </div>
           </div>

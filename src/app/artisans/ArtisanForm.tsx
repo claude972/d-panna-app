@@ -36,12 +36,13 @@ export default function ArtisanForm() {
   };
 
   const inputClass =
-    'w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-base text-white/90 placeholder:text-stone-500 outline-none transition-all duration-300 focus:border-emerald-400/60 focus:bg-white/8';
-  const labelClass = 'mb-2 block text-xs font-bold uppercase tracking-widest text-stone-400';
-  const errorClass = 'mt-1 text-xs text-red-400';
+    'w-full rounded-xl border border-line bg-white px-4 py-3 text-base text-ink placeholder:text-muted outline-none transition focus:border-blue focus:ring-2 focus:ring-blue/20';
+  const labelClass =
+    'mb-2 block font-display text-[11px] font-extrabold uppercase tracking-[0.14em] text-muted';
+  const errorClass = 'mt-1 text-xs text-coral';
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="glass-card space-y-5 p-8">
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
       <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
         <div>
           <label className={labelClass} htmlFor="name">
@@ -111,7 +112,7 @@ export default function ArtisanForm() {
       <button
         type="submit"
         disabled={isSubmitting}
-        className="group inline-flex w-full items-center justify-center gap-2 rounded-full bg-emerald-500 px-8 py-4 text-base font-semibold text-stone-950 transition-all duration-300 hover:scale-[1.02] hover:bg-emerald-400 disabled:opacity-60"
+        className="group inline-flex w-full items-center justify-center gap-2 rounded-xl bg-yellow px-8 py-4 text-base font-display font-extrabold text-ink transition hover:brightness-95 disabled:opacity-60"
       >
         {isSubmitting ? (
           <Loader2 className="h-5 w-5 animate-spin" />

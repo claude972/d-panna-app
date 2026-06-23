@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, ImageIcon, Lightbulb } from 'lucide-react';
 
 import Header from '@/components/layout/Header';
 import BlogCard from '@/components/ui/BlogCard';
@@ -57,88 +57,151 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
     label: p.split('.')[0]?.slice(0, 60) ?? `Section ${i + 1}`,
   }));
 
+  // Auteur fictif cohérent
+  const authorInitials = 'DP';
+
   return (
     <>
       <Header />
-      <main className="min-h-screen bg-stone-950 pt-20">
-        {/* Hero article */}
-        <section className="relative overflow-hidden px-6 py-20 md:py-28">
-          <div className="grid-bg pointer-events-none absolute inset-0 opacity-30" />
-          <div className="relative z-10 mx-auto max-w-4xl">
+      <main className="min-h-screen bg-white">
+        {/* En-tête article */}
+        <section className="px-6 py-12 md:py-16">
+          <div className="mx-auto max-w-2xl">
+            {/* Fil d'ariane */}
             <Link
               href="/blog"
-              className="mb-8 inline-flex items-center gap-2 text-sm text-stone-400 transition-colors hover:text-orange-400"
+              className="mb-6 inline-flex items-center gap-2 text-sm text-muted transition-colors hover:text-blue"
             >
               <ArrowLeft className="h-4 w-4" />
               Retour au blog
             </Link>
-            <span className="glass-card mb-6 inline-flex items-center rounded-full px-4 py-2 text-xs uppercase tracking-widest text-orange-400">
-              {post.category}
-            </span>
-            <h1 className="mb-6 text-4xl font-black tracking-tight text-white/90 md:text-6xl">
+
+            {/* Badge catégorie */}
+            <div className="mb-4">
+              <span className="inline-flex items-center rounded-full bg-blue-tint px-3 py-1 font-display font-extrabold text-[11px] uppercase tracking-[0.14em] text-blue-dark">
+                {post.category}
+              </span>
+            </div>
+
+            {/* Titre */}
+            <h1 className="mb-6 font-display font-black text-3xl text-ink leading-tight md:text-5xl">
               {post.title}
             </h1>
-            <time
-              dateTime={post.date}
-              className="text-sm uppercase tracking-widest text-stone-500"
-            >
-              {formatDate(post.date)}
-            </time>
+
+            {/* Auteur + meta */}
+            <div className="mb-8 flex items-center gap-3">
+              <span className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-ink font-display font-extrabold text-sm text-white flex-shrink-0">
+                {authorInitials}
+              </span>
+              <div className="flex flex-col gap-0.5">
+                <span className="font-display font-extrabold text-sm text-ink">Équipe D-Panna</span>
+                <time dateTime={post.date} className="text-xs text-muted">
+                  {formatDate(post.date)} · 6 min de lecture
+                </time>
+              </div>
+            </div>
+
+            {/* Image placeholder */}
+            <div className="flex h-52 w-full items-center justify-center rounded-2xl bg-blue-tint md:h-72">
+              <ImageIcon className="h-10 w-10 text-blue opacity-60" />
+            </div>
           </div>
         </section>
 
-        {/* Article + Sidebar TOC */}
-        <section className="px-6 pb-24">
-          <div className="mx-auto grid max-w-7xl grid-cols-1 gap-12 lg:grid-cols-12">
-            <article className="lg:col-span-8">
-              <div className="space-y-6 text-base leading-relaxed text-stone-300 md:text-lg">
-                <p className="text-xl text-white/90 md:text-2xl">{post.excerpt}</p>
+        {/* Corps : sommaire + contenu */}
+        <section className="px-6 pb-20">
+          <div className="mx-auto grid max-w-5xl grid-cols-1 gap-12 lg:grid-cols-12">
+            {/* Sommaire sticky */}
+            <aside className="lg:col-span-3">
+              <div className="sticky top-28">
+                <p className="mb-3 font-display font-extrabold text-[11px] uppercase tracking-[0.14em] text-blue">
+                  Sommaire
+                </p>
+                <ul className="space-y-2.5">
+                  {tocItems.map((item, i) => (
+                    <li key={item.id}>
+                      <a
+                        href={`#${item.id}`}
+                        className={
+                          i === 0
+                            ? 'block text-sm font-display font-extrabold text-blue leading-snug'
+                            : 'block text-sm text-muted hover:text-blue leading-snug transition-colors'
+                        }
+                      >
+                        {item.label}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </aside>
+
+            {/* Article */}
+            <article className="lg:col-span-9">
+              {/* Chapeau */}
+              <p className="mb-8 text-xl font-medium text-ink leading-relaxed md:text-2xl">
+                {post.excerpt}
+              </p>
+
+              <div className="space-y-6 text-base leading-relaxed text-ink/80 md:text-lg">
                 {FILLER_PARAGRAPHS.map((paragraph, i) => (
                   <div key={i} id={`section-${i}`}>
                     {i < 4 && (
-                      <h2 className="mb-3 mt-10 text-2xl font-bold text-white/90 md:text-3xl">
+                      <h2 className="mb-3 mt-10 font-display font-black text-2xl text-ink md:text-3xl">
                         {paragraph.split('.')[0]}
                       </h2>
                     )}
                     <p>{paragraph}</p>
+                    {/* Encadré astuce après le 2e paragraphe */}
+                    {i === 1 && (
+                      <div className="card-bold mt-6 flex gap-4 rounded-2xl bg-blue-tint border border-blue p-5">
+                        <Lightbulb className="h-6 w-6 flex-shrink-0 text-blue mt-0.5" />
+                        <div>
+                          <p className="font-display font-extrabold text-sm text-blue-dark mb-1">
+                            Bon à savoir
+                          </p>
+                          <p className="text-sm text-ink/80 leading-relaxed">
+                            Photographiez toujours les dégâts avant d'intervenir. Ces preuves visuelles
+                            sont indispensables pour votre déclaration d'assurance et permettent
+                            à l'artisan d'établir un devis précis à distance.
+                          </p>
+                        </div>
+                      </div>
+                    )}
                   </div>
                 ))}
               </div>
-            </article>
 
-            {/* Sidebar */}
-            <aside className="lg:col-span-4">
-              <div className="sticky top-28">
-                <div className="glass-card p-6">
-                  <h3 className="mb-4 text-xs font-bold uppercase tracking-widest text-orange-400">
-                    Sommaire
-                  </h3>
-                  <ul className="space-y-3">
-                    {tocItems.map((item) => (
-                      <li key={item.id}>
-                        <a
-                          href={`#${item.id}`}
-                          className="block text-sm text-stone-400 transition-colors hover:text-white"
-                        >
-                          {item.label}
-                        </a>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
+              {/* CTA bloc */}
+              <div className="mt-16 rounded-2xl bg-ink p-8 text-center">
+                <p className="font-display font-extrabold text-[11px] uppercase tracking-[0.14em] text-yellow mb-3">
+                  Urgence
+                </p>
+                <h3 className="font-display font-black text-2xl text-white mb-4 md:text-3xl">
+                  UNE FUITE CHEZ VOUS MAINTENANT ?
+                </h3>
+                <p className="text-white/70 text-sm mb-6 max-w-sm mx-auto">
+                  Un artisan certifié vous rappelle en moins de 20 minutes, 7j/7.
+                </p>
+                <Link
+                  href="/#urgence"
+                  className="inline-block rounded-xl bg-yellow px-8 py-3.5 font-display font-extrabold text-ink text-sm uppercase tracking-[0.08em] hover:opacity-90 transition-opacity"
+                >
+                  Appeler un artisan
+                </Link>
               </div>
-            </aside>
+            </article>
           </div>
         </section>
 
         {/* Articles liés */}
-        <section className="px-6 pb-24">
+        <section className="bg-surface-2 px-6 py-16">
           <div className="mx-auto max-w-7xl">
-            <div className="mb-12 flex flex-col gap-3">
-              <span className="text-xs font-bold uppercase tracking-widest text-orange-400">
+            <div className="mb-10 flex flex-col gap-2">
+              <span className="font-display font-extrabold text-[11px] uppercase tracking-[0.14em] text-blue">
                 À lire ensuite
               </span>
-              <h2 className="text-3xl font-black tracking-tight text-white/90 md:text-4xl">
+              <h2 className="font-display font-black text-3xl text-ink md:text-4xl">
                 Articles liés
               </h2>
             </div>

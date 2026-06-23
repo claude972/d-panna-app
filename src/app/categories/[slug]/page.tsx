@@ -1,6 +1,8 @@
+import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import * as LucideIcons from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
+import { CircleCheck } from 'lucide-react';
 
 import Header from '@/components/layout/Header';
 import FAQAccordion from '@/components/ui/FAQAccordion';
@@ -31,56 +33,75 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
   return (
     <>
       <Header />
-      <main className="min-h-screen bg-stone-950 pt-20">
-        {/* Hero spécifique catégorie */}
-        <section className="relative overflow-hidden px-6 py-24 md:py-32">
-          <div className="grid-bg pointer-events-none absolute inset-0 opacity-30" />
-          <div
-            className="pointer-events-none absolute left-1/2 top-1/2 h-[60vh] w-[60vh] -translate-x-1/2 -translate-y-1/2 rounded-full opacity-25 blur-3xl"
-            style={{
-              background:
-                'radial-gradient(circle, rgba(249,115,22,0.4) 0%, rgba(245,158,11,0.15) 40%, transparent 70%)',
-            }}
-          />
-          <div className="relative z-10 mx-auto flex max-w-5xl flex-col items-center gap-8 text-center">
-            <Icon
-              className="text-orange-400"
-              style={{ width: 200, height: 200 }}
-              strokeWidth={1.2}
+      <main className="min-h-screen bg-surface">
+
+        {/* Fil d'ariane */}
+        <nav
+          aria-label="Fil d'ariane"
+          className="mx-auto max-w-7xl px-6 py-4 flex items-center gap-2 text-sm text-muted"
+        >
+          <Link href="/" className="hover:text-ink transition-colors">
+            Accueil
+          </Link>
+          <span aria-hidden="true">/</span>
+          <Link href="/#categories" className="hover:text-ink transition-colors">
+            Services
+          </Link>
+          <span aria-hidden="true">/</span>
+          <span className="text-ink font-medium" aria-current="page">
+            {category.label}
+          </span>
+        </nav>
+
+        {/* Hero bg-ink */}
+        <section className="bg-ink px-6 py-20 md:py-28">
+          <div className="mx-auto max-w-5xl flex flex-col items-center gap-6 text-center">
+            {/* Pastille carrée bg-yellow */}
+            <div
+              className="flex items-center justify-center rounded-2xl bg-yellow"
+              style={{ width: 88, height: 88 }}
               aria-hidden="true"
-            />
-            <h1 className="text-5xl font-black tracking-tight text-white/90 md:text-7xl">
+            >
+              <Icon className="text-ink" style={{ width: 48, height: 48 }} strokeWidth={2} />
+            </div>
+
+            {/* Eyebrow */}
+            <p className="font-display font-extrabold text-[11px] uppercase tracking-[0.14em] text-yellow">
+              Nos interventions
+            </p>
+
+            {/* H1 */}
+            <h1 className="font-display font-black text-white text-5xl md:text-7xl uppercase leading-none">
               {category.label}
             </h1>
-            <p className="max-w-2xl text-base text-stone-400 md:text-xl">
-              Un artisan certifié et assuré en {category.label.toLowerCase()}, chez vous en moins de
-              30 minutes. Devis gratuit, tarif transparent.
+
+            {/* Sous-titre */}
+            <p className="max-w-2xl text-base md:text-xl" style={{ color: '#aeb7dd' }}>
+              Un artisan certifié et assuré en {category.label.toLowerCase()}, chez vous en moins
+              de 30 minutes. Devis gratuit, tarif transparent.
             </p>
           </div>
         </section>
 
-        {/* Sous-catégories */}
+        {/* Section services — fond blanc */}
         {category.subcategories && category.subcategories.length > 0 && (
-          <section className="px-6 py-24">
+          <section className="bg-surface px-6 py-20">
             <div className="mx-auto max-w-7xl">
-              <div className="mb-16 flex flex-col items-center gap-4 text-center">
-                <span className="glass-card inline-flex items-center rounded-full px-4 py-2 text-xs uppercase tracking-widest text-orange-400">
-                  Nos interventions
-                </span>
-                <h2 className="text-4xl font-black tracking-tight text-white/90 md:text-5xl">
-                  Tous nos services en {category.label.toLowerCase()}
-                </h2>
-              </div>
-              <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+              <h2 className="font-display font-black text-ink text-3xl md:text-4xl uppercase mb-10 text-center">
+                Tous nos services en {category.label}
+              </h2>
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                 {category.subcategories.map((sub) => (
                   <div
                     key={sub}
-                    className="glass-card group flex items-center gap-4 p-6 transition-all duration-300 hover:border-orange-500/40"
+                    className="card-bold flex items-center gap-4 px-6 py-5"
                   >
-                    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-orange-500/10 text-orange-400 group-hover:bg-orange-500/20">
-                      <LucideIcons.Check className="h-5 w-5" aria-hidden="true" />
-                    </span>
-                    <span className="text-base font-medium text-white/90">{sub}</span>
+                    <CircleCheck
+                      className="text-blue shrink-0"
+                      style={{ width: 22, height: 22 }}
+                      aria-hidden="true"
+                    />
+                    <span className="text-base font-medium text-ink">{sub}</span>
                   </div>
                 ))}
               </div>
@@ -88,9 +109,51 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
           </section>
         )}
 
-        {/* CTA questionnaire */}
-        <section className="px-6 py-24">
-          <CategoryCTA categorySlug={category.slug} label={category.label} />
+        {/* Bande stats bg-blue */}
+        <section className="bg-blue px-6 py-16">
+          <div className="mx-auto max-w-4xl grid grid-cols-1 gap-10 text-center sm:grid-cols-3">
+            <div className="flex flex-col items-center gap-2">
+              <span className="font-display font-black text-yellow text-5xl md:text-6xl">
+                24/7
+              </span>
+              <span className="text-sm font-medium text-white/80 uppercase tracking-wide">
+                Disponible en permanence
+              </span>
+            </div>
+            <div className="flex flex-col items-center gap-2">
+              <span className="font-display font-black text-yellow text-5xl md:text-6xl">
+                &lt;30 min
+              </span>
+              <span className="text-sm font-medium text-white/80 uppercase tracking-wide">
+                Délai d'intervention moyen
+              </span>
+            </div>
+            <div className="flex flex-col items-center gap-2">
+              <span className="font-display font-black text-yellow text-5xl md:text-6xl">
+                93%
+              </span>
+              <span className="text-sm font-medium text-white/80 uppercase tracking-wide">
+                Clients satisfaits
+              </span>
+            </div>
+          </div>
+        </section>
+
+        {/* CTA final */}
+        <section className="bg-surface px-6 py-20">
+          <div className="mx-auto max-w-3xl flex flex-col items-center gap-6 text-center">
+            <p className="font-display font-extrabold text-[11px] uppercase tracking-[0.14em] text-blue">
+              Intervention rapide
+            </p>
+            <h2 className="font-display font-black text-ink text-3xl md:text-4xl uppercase">
+              Besoin d&apos;un {category.label} ?
+            </h2>
+            <p className="text-base text-muted md:text-lg max-w-xl">
+              Décrivez votre besoin en 30 secondes. Un artisan certifié vous rappelle en moins de
+              20 minutes avec un devis clair et transparent.
+            </p>
+            <CategoryCTA categorySlug={category.slug} label={category.label} />
+          </div>
         </section>
 
         <FAQAccordion />
